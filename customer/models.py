@@ -37,13 +37,23 @@ class CustomAccountManager(BaseUserManager):
 
 
 class Customer(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_('Email Address'), unique=True)
     name = models.CharField(max_length=150)
-    mobile = models.CharField(max_length=20, blank=True)
-    is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    mobile = models.CharField(
+        verbose_name=_('Mobile Number'),
+        max_length=50,
+        unique=True,
+        blank=True, null=True,
+    )
+    profile_image = models.ImageField(
+        verbose_name=_("Profile Photo"),
+        upload_to="customer/user_images",
+        null=True, blank=True
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     objects = CustomAccountManager()
 
