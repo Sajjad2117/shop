@@ -8,7 +8,8 @@ from customer.models import Customer
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True,
-                                   label="Email Address"
+                                   label="Email Address",
+                                   # validators=[validate_email],
                                    )
     password = serializers.CharField(required=True,
                                      label="Password",

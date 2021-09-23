@@ -41,7 +41,7 @@ class Customer(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=150)
     mobile = models.CharField(
         verbose_name=_('Mobile Number'),
-        max_length=50,
+        max_length=10,
         unique=True,
         blank=True, null=True,
     )

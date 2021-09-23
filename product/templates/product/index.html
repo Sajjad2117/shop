@@ -1,0 +1,18 @@
+{% extends 'product/base.html' %}
+
+{% block title %} Product list {% endblock %}
+
+{% block content %}
+    <h5>List of product: </h5>
+    {% if product_list %}
+        <ul>
+
+            {% for product in product_list %}
+                <li>
+                    <a href="{% url 'product:detail' product.id %}">{{ product.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+    {% endif %}
+{% endblock %}

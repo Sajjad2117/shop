@@ -26,6 +26,7 @@ class Product(models.Model):
     description = models.TextField(max_length=1000, default="About product")
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='product', null=True, blank=True)
+    number = models.PositiveSmallIntegerField(blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
