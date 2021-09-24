@@ -5,9 +5,9 @@ A simple django ecommerce project
 
 ##### Commands:
 ```bash
-py -m venv venv
+python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-py manage.py runserver
+python manage.py runserver
 ```
 
