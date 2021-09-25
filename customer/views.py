@@ -1,14 +1,28 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 
 
+# @login_required
+def update_customer(request):
+    # customer = request.user
+    form = CustomerForm(instance=request.user)
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('product:index')
+    context = {'form': form}
+    return render(request, 'customer/profile.html', context)
+
+
 def login_page(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, name=name, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('product:index')

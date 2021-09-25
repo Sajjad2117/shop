@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <title>Online Shop</title>
+</head>
+<body>
+<div id="mycontent">
+
+
+    <!--header-->
+    <header class="d-none d-lg-block">
+
+        <!--navbar top-->
+        <div class="bg-light" id="top-okala-info">
+            <div class="container">
+                <div class="d-flex align-items-center">
+                    <!-- phone, blog-->
+
+                    <div class="mr-auto d-flex align-items-center flex-shrink-0">
+
+                        <!--about-->
+                        <a href="https://blog.okala.com/" target="_blank"
+                           class="btn btn-sm font-weight-bold rounded-0 px-16" style="font-size:12px">
+                            درباره ما
+                        </a>
+                        <a href="https://blog.okala.com/" target="_blank"
+                           class="btn btn-sm font-weight-bold rounded-0 px-16" style="font-size:12px">
+                            تماس با ما
+                        </a>
+                        <!--about end-->
+                        <!--phone-->
+                        <div class="mr-24">
+                            <div class="text-caption">
+                               <img src="media/product/phone.svg" alt="phone icon"/>
+                            </div>
+                        </div>
+                        <!--phone end-->
+                    </div>
+                    <!--phone, blog end-->
+
+                </div>
+            </div>
+        </div>
+        <!--navbar top end-->
+        <!--navbar search-->
+        <div class="bg-white py-16">
+            <div class="container d-flex align-items-center ">
+                <!--logo-->
+                <a href="/" class="ml-auto">
+                    <img src="media/product/mylogo.png" height="48" alt="فروشگاه اینترنتی">
+                </a>
+                <!--logo end-->
+                <!--search-->
+                <div class="mx-auto w-40-xl w-40-lg search-box-container">
+                    <form action="/search" data-action="" id="frmSearch" autocomplete="off" class="search-box">
+                        <!--search box text input-->
+                        <div id="total-search-input"
+                             class="d-flex flex-nowrap justify-content-between align-items-center input-group form-control"
+                             style="box-shadow:none ;padding:0 0 0 2px; box-sizing:border-box; background: rgba(22, 22, 22, 0.04);">
+                            <div id="search-input" class="d-flex w-80 align-items-center" style="padding-right:24px">
+                                <img src="media/product/search.svg" alt="search icon"/>
+                                <input autocomplete="off" name="keyword" type="text" id="search-field"
+                                       class="form-control shadow-none h-100 gtm-search-field"
+                                       style="border:none;background:transparent"
+                                       placeholder="برند، کالا و یا دسته بندی مورد نظر خود را جستجو کنید"/>
+                                <input name="sort" type="hidden" value="7"/>
+                            </div>
+                            <div>
+                                <button id="search-button"
+                                        class="btn d-flex justify-content-center align-content-center gtm-search-button"
+                                        style="width:101px; height:42px; font-size:14px; padding:unset 28px"
+                                        type="submit">جستجو
+                                </button>
+                            </div>
+                        </div>
+                        <!--search box text input end-->
+                        <!--search box dropdown-->
+                        <div class="search-result search-box-dropdown gtm-search-result-container"
+                             style="font-size:14px"></div>
+                        <!--search box dropdown end-->
+                    </form>
+                </div>
+                <!--search end-->
+
+                <!--login - shopping cart-->
+                <div class="mr-auto d-flex align-items-center">
+                    <!--login dropdown-->
+                    <div class="dropdown ml-24">
+                        <a class="btn btn-flat-dark px-24"
+                           style="background-color: rgba(22, 22, 22, 0.08); font-size:14px; width:130px"
+                           href="/customer/login/">ورود / ثبت نام</a>
+                    </div>
+                    <!--login dropdown end-->
+
+                    <!--shopping cart-->
+                    <button class="btn cart-wrapper position-relative p-0" type="button" id="offcanvas-trigger-cart">
+                        <div class="topCartCount bag-item-count">0</div>
+                        <img src="media/product/cart.svg" alt="cart icon"/>
+                    </button>
+                    <!--shopping cart end-->
+
+                </div>
+                <!--login - shopping cart end-->
+
+            </div>
+        </div>
+        <!--navbar search end-->
+    </header>
+    <!--header end-->
+</div>
+</body>
+
+
+</html>
