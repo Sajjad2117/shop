@@ -19,8 +19,8 @@ class Customer(AbstractUser):
     amount_of_shopping = models.PositiveIntegerField(_('amount of shopping'), default=0)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = _("Customer")

@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,11 +23,11 @@
         <form class="pt-3" method="post" action="">
             {% csrf_token %}
             <div class="form-group py-2">
-                <div class="input-field"><span class="far fa-user p-2"></span>
-                    <input type="text" placeholder="Username" required name="username"></div>
+                <div class="input-field"> <span class="far fa-user p-2"></span>
+                    <input type="text" placeholder="Username" required name="username"> </div>
             </div>
             <div class="form-group py-1 pb-2">
-                <div class="input-field"><span class="fas fa-lock p-2"></span>
+                <div class="input-field"> <span class="fas fa-lock p-2"></span>
                     <input type="password" placeholder="Enter your Password" required class="" name="password">
                 </div>
             </div>
@@ -37,20 +36,18 @@
                     <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
                     <label class="custom-control-label" for="customCheck">Remember me</label>
                 </div>
-                <div class="ml-auto"><a href=""
-                                        onclick="window.alert('You should have remembered it!')"
-                                        id="forgot">Forgot Password?</a>
+                <div class="ml-auto"> <a href="" onclick="window.alert('You should have remembered it!')"
+                                         id="forgot">Forgot Password?</a>
                 </div>
 
             </div>
 
             {% for message in messages %}
-            <p class="text-danger">{{ message }}</p>
+                <p class="text-danger">{{ message }}</p>
             {% endfor %}
 
             <button class="btn btn-block text-center my-3">Log in</button>
-            <div class="text-center pt-3 text-muted">Not a member? <a href="{% url 'customer:register' %}" target="_blank">Sign
-                up</a></div>
+            <div class="text-center pt-3 text-muted">Not a member? <a href="{% url 'customer:register' %}" target="_blank">Sign up</a></div>
         </form>
 
     </div>

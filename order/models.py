@@ -54,7 +54,7 @@ class Order(models.Model):
         return total_price
 
     @property
-    def total_with_discount(self):
+    def total_price_with_discount(self):
         if DiscountCode.objects.filter(product=self).count() > 0:
             total_price_with_discount = int(self.total_price - (self.total_price * DiscountCode.amount / 100))
             return total_price_with_discount

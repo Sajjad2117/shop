@@ -9,13 +9,13 @@ class IndexView(generic.ListView):
     context_object_name = 'product_list'
 
     def get_queryset(self):
-        return Product.objects.order_by('title')[:10]
+        return Product.objects.order_by('name')[:4]
 
 
 class DetailView(generic.DetailView):
     model = Product
     template_name = 'product/detail.html'
-    context_object_name = 'product'
+    context_object_name = 'products'
 
 
 def product_category(request, pk):

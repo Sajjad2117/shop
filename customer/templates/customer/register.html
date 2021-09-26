@@ -25,10 +25,10 @@
         <form class="pt-3" method="POST" action="">
             {% csrf_token %}
             <div class="form-group py-2">
-                <label class="text-secondary">name:</label>
+                <label class="text-secondary">Username:</label>
                 <div class="input-field">
                     {# <input type="text" placeholder="Sajjad" required>#}
-                    {{ form.name }}
+                    {{ form.username }}
                 </div>
             </div>
 
@@ -54,6 +54,8 @@
                     {{ form.password2 }}
                 </div>
             </div>
+
+
 
             <button class="btn btn-block text-center my-3" type="submit">SIGN UP</button>
             <div class="text-center pt-3 text-muted">Already have an account? <a href="{% url 'customer:login' %}"

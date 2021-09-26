@@ -8,7 +8,7 @@ app_name = 'product'
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('detail/', DetailView.as_view(), name='product_detail'),
+    path('detail/<int:pk>/', DetailView.as_view(), name='detail'),
     path('category/<int:pk>/', product_category, name='category'),
 
 ]
