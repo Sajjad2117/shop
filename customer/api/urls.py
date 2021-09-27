@@ -1,6 +1,6 @@
 from django.urls import path
 
-from customer.api import views
+from .views import UserLoginAPIView, UserRegisterAPIView
 
 app_name = "customer"
 
@@ -10,6 +10,6 @@ urlpatterns = [
     # # ex: api/user/register/
     # path("register/", views.RegisterView.as_view(), name="Register"),
 
-    path("login/", views.UserLoginAPIView.as_view(), name="Login"),
-    path("register/", views.UserRegistrationAPIView.as_view(), name="Register"),
+    path("login/", UserLoginAPIView.as_view(), name="Login"),
+    path("register/", UserRegisterAPIView.as_view(), name="Register"),
 ]

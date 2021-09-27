@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'customer/js/register.js' %}"></script>
 
     <meta charset="UTF-8">
     <title>Sign Up</title>
@@ -22,7 +23,7 @@
 <fieldset style="margin: auto;">
     <div class="wrapper bg-white">
         <div class="h4 text-muted text-center pt-2">Fill the form</div>
-        <form class="pt-3" method="POST" action="">
+        <form class="pt-3" method="POST" action="{% url 'customer:login' %}" id="signup_form">
             {% csrf_token %}
             <div class="form-group py-2">
                 <label class="text-secondary">Username:</label>
@@ -44,20 +45,19 @@
                 <label class="text-secondary">Password:</label>
                 <div class="input-field">
                     {# <input type="password" placeholder="****" required class="">#}
-                    {{ form.password1 }}
+                    {{ form.password }}
                 </div>
             </div>
             <div class="form-group py-1 pb-2">
                 <label class="text-secondary">Password verify:</label>
                 <div class="input-field">
                     {# <input type="password" placeholder="****" required class="">#}
-                    {{ form.password2 }}
+                    {{ form.confirm_password }}
                 </div>
             </div>
 
 
-
-            <button class="btn btn-block text-center my-3" type="submit">SIGN UP</button>
+            <button class="btn btn-block text-center my-3" type="submit" id="mysignup">SIGN UP</button>
             <div class="text-center pt-3 text-muted">Already have an account? <a href="{% url 'customer:login' %}"
                                                                                  target="_blank">Log in</a></div>
             <div class="text-center pt-3">

@@ -9,7 +9,7 @@ class IndexView(generic.ListView):
     context_object_name = 'product_list'
 
     def get_queryset(self):
-        return Product.objects.order_by('name')[:4]
+        return Product.objects.order_by('name')[:9]
 
 
 class DetailView(generic.DetailView):

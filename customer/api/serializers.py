@@ -2,47 +2,48 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from django.db.models import Q
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 from customer.models import Customer
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True,
+                                     max_length=100,
+                                     label=_('Username'), )
     email = serializers.EmailField(required=True,
-                                   label="Email Address",
-                                   # validators=[validate_email],
-                                   )
+                                   max_length=100,
+                                   label=_('Email Address'), )
     password = serializers.CharField(required=True,
-                                     label="Password",
-                                     style={'input_type': 'password'}
-                                     )
-    password_2 = serializers.CharField(required=True,
-                                       label="Confirm Password",
-                                       style={'input_type': 'password'}
-                                       )
-    name = serializers.CharField(required=True)
+                                     min_length=6, max_length=100,
+                                     label=_('Password'),
+                                     style={'input_type': 'password'}, )
+    confirm_password = serializers.CharField(required=True,
+                                             min_length=6, max_length=100,
+                                             label=_('Confirm Password'),
+                                             style={'input_type': 'password'},
+                                             write_only=True, )
 
-    class Meta(object):
-        model = Customer
-        fields = ['id', 'email', 'name', 'password', 'password_2']
+    def create(self, validated_data):
+        user = Customer.objects.create_user(username=validated_data['username'],
+                                            email=validated_data['email'])
+        user.set_password(validated_data['password'])
+        user.save()
+        return validated_data
 
-    def validate_email(self, value):
-        if Customer.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Email already exists.")
-        return value
+    def validate(self, attrs):
+        username = attrs['username']
+        password = attrs['password']
+        email = attrs['email']
+        confirm_password = attrs['confirm_password']
+        if Customer.objects.filter(username=username).exists():
+            raise serializers.ValidationError(_('Username already exist'))
+        elif Customer.objects.filter(email=email).exists():
+            raise serializers.ValidationError(_("Email already exists."))
+        elif password != confirm_password:
+            raise serializers.ValidationError(_("Passwords doesn't match."))
+        return attrs
 
-    def validate_password(self, value):
-        if len(value) < getattr(settings, 'PASSWORD_MIN_LENGTH', 8):
-            raise serializers.ValidationError(
-                "Password should be at least %s characters long." % getattr(settings, 'PASSWORD_MIN_LENGTH', 8)
-            )
-        return value
-
-    def validate_password_2(self, value):
-        data = self.get_initial()
-        password = data.get('password')
-        if password != value:
-            raise serializers.ValidationError("Passwords doesn't match.")
-        return value
 
 
 class UserLoginSerializer(serializers.ModelSerializer):

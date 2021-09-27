@@ -3,7 +3,7 @@
 <!--        <ul class="navbar-nav">-->
 
 <!--            <li class="nav-item"><a class="nav-link" href="{% url 'product:index' %}"> Home </a></li>-->
-<!--            <li class="nav-item"><a class="nav-link" href="{% url 'customer:profile' %}"> Profile </a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" href="{% url 'customer:edit_profile' %}"> Profile </a></li>-->
 <!--            -->
 
 <!--            {% for cat in category %}-->
@@ -216,8 +216,11 @@
 
     {% if request.user.is_authenticated %}
     <span style="color: white; margin-right: 20px">Hello {{ request.user }}</span>
+    <span><a href="{% url 'customer:edit_profile' %}" class="text-light nav-link"
+             style="margin-right: 20px">Edit Profile</a> </span>
     <span><a href="{% url 'customer:logout' %}" class="text-light nav-link"
              style="margin-right: 20px">Log out</a> </span>
+
     {% endif %}
 
 </nav>

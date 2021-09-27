@@ -11,6 +11,6 @@ urlpatterns = [
     path('detail/<int:pk>/', DetailView.as_view(), name='detail'),
     path('category/<int:pk>/', product_category, name='category'),
 
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

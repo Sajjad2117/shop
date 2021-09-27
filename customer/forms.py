@@ -1,26 +1,28 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from django.forms import ModelForm
+from django.utils.translation import gettext_lazy as _
 
 from .models import Customer
+
+
+class CustomerLoginForm(AuthenticationForm):
+    class Meta:
+        model = Customer
+        fields = ('username', 'password')
+
+
+class CustomerRegisterForm(forms.Form):
+    username = forms.CharField(max_length=100, label=_('Username'))
+    email = forms.CharField(max_length=100, label=_('Email'))
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput, label=_('Password'))
+    confirm_password = forms.CharField(max_length=100, widget=forms.PasswordInput, label=_('Confirm Password'))
 
 
 class CustomerForm(ModelForm):
     class Meta:
         model = Customer
-        fields = ['username', 'email', 'profile_image']
+        fields = ['username', 'first_name', 'last_name', 'email', 'profile_image', ]
         widgets = {
-            'image': forms.FileInput(attrs={'class': 'form-control-file'})
-        }
-
-
-class CreateUser(UserCreationForm):
-    class Meta:
-        model = Customer
-        fields = ['username', 'email', 'password1', 'password2']
-        widgets = {
-            'username': forms.TextInput(attrs={'type': 'text', 'placeholder': 'Sajjad'}),
-            'email': forms.TextInput(attrs={'type': 'text', 'placeholder': 'sajjad@gmail.com'}),
-            'password1': forms.TextInput(attrs={'type': 'password'}),
-            'password2': forms.TextInput(attrs={'type': 'password'})
+            'profile_image': forms.FileInput(attrs={'class': 'form-control-file'})
         }

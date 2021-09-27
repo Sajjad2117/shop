@@ -10,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <meta charset="UTF-8">
-    <title>Update profile</title>
+    <title>Edit profile</title>
 </head>
 <body>
 
@@ -24,10 +24,17 @@
         <form class="pt-3" method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group py-2">
+                <label class="text-secondary">user name:</label>
+                <div class="input-field">
+                    {# <input type="text" placeholder="sajjad" required>#}
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="form-group py-2">
                 <label class="text-secondary">First name:</label>
                 <div class="input-field">
                     {# <input type="text" placeholder="Sajjad" required>#}
-                    {{ form.name }}
+                    {{ form.first_name }}
                 </div>
             </div>
 
@@ -35,7 +42,7 @@
                 <label class="text-secondary">Last name:</label>
                 <div class="input-field">
                     {# <input type="text" placeholder="Yadollahzadeh" required>#}
-                    {{ form.name }}
+                    {{ form.last_name }}
                 </div>
             </div>
 
@@ -49,7 +56,7 @@
             </div>
 
             <div class="form-group py-2">
-                <label class="text-secondary">pic:</label>
+                <label class="text-secondary">image:</label>
                 <div class="form-control-file">
                     {# <input type="file" class="form-control-file" required>#}
                     {{ form.profile_image }}
