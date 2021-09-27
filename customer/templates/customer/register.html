@@ -25,7 +25,7 @@
         <div class="h4 text-muted text-center pt-2">Fill the form</div>
         <form class="pt-3" method="POST" action="{% url 'customer:login' %}" id="signup_form">
             {% csrf_token %}
-            <div class="form-group py-2">
+            <div class="form-group py-2" id="id_username">
                 <label class="text-secondary">Username:</label>
                 <div class="input-field">
                     {# <input type="text" placeholder="Sajjad" required>#}
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="form-group py-2">
+            <div class="form-group py-2" id="id_email">
                 <label class="text-secondary">Email:</label>
                 <div class="input-field">
                     {# <input type="text" placeholder="sajjad@gmail.com" required>#}
@@ -41,14 +41,14 @@
                 </div>
             </div>
 
-            <div class="form-group py-1 pb-2">
+            <div class="form-group py-1 pb-2" id="id_password">
                 <label class="text-secondary">Password:</label>
                 <div class="input-field">
                     {# <input type="password" placeholder="****" required class="">#}
                     {{ form.password }}
                 </div>
             </div>
-            <div class="form-group py-1 pb-2">
+            <div class="form-group py-1 pb-2" id="id_confirm_password">
                 <label class="text-secondary">Password verify:</label>
                 <div class="input-field">
                     {# <input type="password" placeholder="****" required class="">#}

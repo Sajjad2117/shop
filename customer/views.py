@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import FormView
@@ -19,9 +20,16 @@ class RegisterView(FormView):
 
 class LoginUserView(LoginView):
     authentication_form = CustomerLoginForm
-    redirect_field_name = 'next'
+    # redirect_field_name = 'next'
     template_name = 'customer/login.html'
-    redirect_authenticated_user = True
+    # redirect_authenticated_user = True
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if 'next' in request.GET:
+                return HttpResponseRedirect(request.GET['next'])
+            return redirect('product:index')
+        return super().get(request, *args, **kwargs)
 
 
 # def login_view(request):

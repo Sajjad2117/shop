@@ -135,7 +135,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -148,9 +147,12 @@ if DEBUG:
 else:
     STATIC_ROOT = BASE_DIR / 'static'
 
-
 # media configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'customer.Customer'
+
+LOGIN_REDIRECT_URL = '/product/'
+LOGIN_URL = '/customer/login/'
+LOGOUT_REDIRECT_URL = '/product/'
