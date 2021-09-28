@@ -11,8 +11,13 @@ from . import serializers
 
 from customer.models import Customer
 
-from .serializers import UserRegisterSerializer, UserSerializer
+from .serializers import RegisterSerializer
 
+
+class RegisterAPIView(generics.ListCreateAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = (AllowAny,)
 
 # class RegisterView(CreateAPIView):
 #     renderer_classes = (JSONRenderer,)
@@ -47,12 +52,6 @@ from .serializers import UserRegisterSerializer, UserSerializer
 #
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #
-
-
-class RegisterView(CreateAPIView):
-    serializer_class = UserRegisterSerializer
-    permission_classes = (AllowAny,)
-    queryset = Customer.objects.all()
 
 
 # class UserRegisterAPIView(generics.GenericAPIView):
