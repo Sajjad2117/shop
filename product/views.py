@@ -5,11 +5,15 @@ from .models import Product, Category
 
 
 class IndexView(generic.ListView):
+    model = Product
+    queryset = Product.objects.filter(is_active=True).order_by('-date_added')[:9]
     template_name = 'product/index.html'
-    context_object_name = 'product_list'
+    context_object_name = 'products'
 
-    def get_queryset(self):
-        return Product.objects.order_by('name')[:9]
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class DetailView(generic.DetailView):
@@ -18,6 +22,11 @@ class DetailView(generic.DetailView):
     context_object_name = 'products'
 
 
-def product_category(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    return render(request, 'products/index.html', context={'category': category})
+def product_category(request, category):
+    context = dict()
+    category_id = Category.objects.get(name=category).id
+    categories = Category.objects.filter(is_active=True)
+    product_list = Product.objects.filter(category=category_id, is_active=True)
+    context['products'] = product_list
+    context['categories'] = categories
+    return render(request, 'products/product_by_category.html', context=context)

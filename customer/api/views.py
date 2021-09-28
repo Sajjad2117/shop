@@ -11,7 +11,7 @@ from . import serializers
 
 from customer.models import Customer
 
-from .serializers import UserRegisterSerializer
+from .serializers import UserRegisterSerializer, UserSerializer
 
 
 # class RegisterView(CreateAPIView):
@@ -49,11 +49,24 @@ from .serializers import UserRegisterSerializer
 #
 
 
-class UserRegisterAPIView(generics.ListCreateAPIView):
-    permission_classes = (AllowAny,)
+class RegisterView(CreateAPIView):
     serializer_class = UserRegisterSerializer
+    permission_classes = (AllowAny,)
     queryset = Customer.objects.all()
 
+
+# class UserRegisterAPIView(generics.GenericAPIView):
+#     serializer_class = UserRegisterSerializer
+#     permission_classes = (AllowAny,)
+#     queryset = Customer.objects.all()
+#
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         return Response({
+#             "user": UserSerializer(user, context=self.get_serializer_context()).data,
+#         })
 
 # class UserLoginAPIView(views.APIView):
 #     permission_classes = (AllowAny, )

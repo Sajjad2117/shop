@@ -14,7 +14,7 @@
     <title>Sign Up</title>
 </head>
 <body>
-
+"{% static 'customer/js/register.js' %}"
 <div class="jumbotron jumbotron-fluid p-3">
     <h1 align="center">signup page</h1>
     <p class="text-black-50" align="center">Register for no reason...</p>
@@ -23,7 +23,7 @@
 <fieldset style="margin: auto;">
     <div class="wrapper bg-white">
         <div class="h4 text-muted text-center pt-2">Fill the form</div>
-        <form class="pt-3" method="POST" action="{% url 'customer:login' %}" id="signup_form">
+        <form class="pt-3" method="post" enctype="multipart/form-data" id="signup_form">
             {% csrf_token %}
             <div class="form-group py-2" id="id_username">
                 <label class="text-secondary">Username:</label>
@@ -57,7 +57,7 @@
             </div>
 
 
-            <button class="btn btn-block text-center my-3" type="submit" id="mysignup">SIGN UP</button>
+            <button class="btn btn-block text-center my-3" type="submit" id="signupbtn">SIGN UP</button>
             <div class="text-center pt-3 text-muted">Already have an account? <a href="{% url 'customer:login' %}"
                                                                                  target="_blank">Log in</a></div>
             <div class="text-center pt-3">

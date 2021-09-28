@@ -4,24 +4,34 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views import View
 from django.views.generic import FormView
 
 from .models import *
 from .forms import *
 
 
+# class RegisterView(View):
+#     form_class = CustomerRegisterForm
+#     template_name = 'customer/register.html'
+#     initial = {'key': 'value'}
+#
+#     def get(self, request, *args, **kwargs):
+#         form = self.form_class(initial=self.initial)
+#         return render(request, self.template_name, {'form': form})
+
+
 class RegisterView(FormView):
     form_class = CustomerRegisterForm
     template_name = 'customer/register.html'
-
-    def get_success_url(self):
-        return reverse('customer/login.html')
+    success_url = "/product/"
 
 
 class LoginUserView(LoginView):
     authentication_form = CustomerLoginForm
     # redirect_field_name = 'next'
     template_name = 'customer/login.html'
+
     # redirect_authenticated_user = True
 
     def get(self, request, *args, **kwargs):
@@ -70,5 +80,3 @@ def edit_profile_view(request):
             return redirect('product:index')
     context = {'form': form}
     return render(request, 'customer/edit_profile.html', context)
-
-

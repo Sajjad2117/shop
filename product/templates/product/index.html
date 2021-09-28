@@ -196,6 +196,7 @@
 <section class="pt-5 pb-5">
     <div class="container">
         <div class="row">
+
             <div class="col-6 text-right ">
                 <h3 class="mb-3">محصولات </h3>
             </div>
@@ -226,7 +227,8 @@
             <div class="col-12">
                 <div class="row">
 
-                    {% for product in product_list %}
+                    {% for product in products %}
+
                     <div class="col-md-4 mb-3">
                         <div class="card text-center">
                             <!--product image and badge-->
@@ -238,7 +240,12 @@
                                 <div class="swiper-lazy-preloader swiper-lazy-preloader-dark"></div>
                                 <div class="product-box_discount"><span>%19<small>تخفیف</small></span></div>
                             </a>
-                            <!--product image and badge end-->
+
+
+
+
+                <!--product image and badge end-->
+
 
                             <div class="card-body">
                                 <!--product title-->
@@ -273,6 +280,7 @@
                     </div>
                     {% endfor %}
 
+
                 </div>
             </div>
         </div>
@@ -288,6 +296,24 @@
         </div>
     </div>
 </section>
+ </div>
+                {#                <div div="row">#}
+                {#                    <ul class="pagination pagination-lg justify-content-center">#}
+                {#                        <button id="loadMoreBtn" type="button" class="btn orderTableBtn">#}
+                {#                            <li class="page-item disabled"></li>#}
+                {#                            Load more#}
+                {#                        </button>#}
+                {##}
+                {#                        <li class="page-item">#}
+                {#                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"#}
+                {#                               href="#">2</a>#}
+                {#                        </li>#}
+                {#                        <li class="page-item">#}
+                {#                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>#}
+                {#                        </li>#}
+                {#                    </ul>#}
+                {#                </div>#}
+            </div>
 <!--section product end-->
 
 

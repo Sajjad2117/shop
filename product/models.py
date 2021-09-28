@@ -4,8 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, verbose_name=_('parent'),
-                               related_name='children')
+    # parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, verbose_name=_('parent'),
+    #                            related_name='children')
 
     class Meta:
         ordering = ('name',)
