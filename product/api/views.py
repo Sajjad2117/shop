@@ -6,10 +6,21 @@ from .serializers import ProductSerializer
 from product.models import Product
 
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = 'page_size'
+    max_page_size = 3
+
+
+# class PaginationView(generics.ListAPIView):
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
+#     pagination_class = LargeResultsSetPagination
+
 class PaginationView(ListAPIView):
     queryset = Product.objects.filter(is_active=True)
     serializer_class = ProductSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         queryset = Product.objects.filter(is_active=True)
