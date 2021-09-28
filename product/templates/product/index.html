@@ -192,6 +192,7 @@
 </section>
 <!--section day-offer end-->
 
+
 <!--section product-->
 <section class="pt-5 pb-5">
     <div class="container">
@@ -229,166 +230,141 @@
 
                     {% for product in products %}
 
-                    <div class="col-md-4 mb-3">
-                        <div class="card text-center">
-                            <!--product image and badge-->
-                            <a href="{% url 'product:detail' product.id %}" class="product-box_image"
-                               title="{{ product.name }}">
-                                <img class="img-fluid" width="280" height="100"
-                                     src="media/{{ product.image }}"
-                                     alt="{{ product.name }}">
-                                <div class="swiper-lazy-preloader swiper-lazy-preloader-dark"></div>
-                                <div class="product-box_discount"><span>%19<small>تخفیف</small></span></div>
-                            </a>
 
 
-
-
-                <!--product image and badge end-->
-
-
-                            <div class="card-body">
-                                <!--product title-->
-                                <a href="{% url 'product:detail' product.id %}"
-                                   class="product-box_title text-dark" title="{{ product.name }}">
-                                    <h2 style="font-size: 0.85rem">{{ product.name }}</h2>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-center">
+                                <!--product image and badge-->
+                                <a href="{% url 'product:detail' product.id %}" class="product-box_image"
+                                   title="{{ product.name }}">
+                                    <img class="img-fluid" width="280" height="100"
+                                         src="media/{{ product.image }}"
+                                         alt="{{ product.name }}">
+                                    <div class="swiper-lazy-preloader swiper-lazy-preloader-dark"></div>
+                                    <div class="product-box_discount"><span>%19<small>تخفیف</small></span></div>
                                 </a>
-                                <!--product title end-->
 
-                                <!--price-->
-                                <a href="{% url 'product:detail' product.id %}"
-                                   title="{{ product.price }}">
-                                    <del>220,000</del>
-                                    <div class="product-box_price-value text-secondary">{{ product.price }}
-                                        <span class="product-box_price-currency">تومان</span>
+
+                                <!--product image and badge end-->
+
+
+                                <div class="card-body">
+                                    <!--product title-->
+                                    <a href="{% url 'product:detail' product.id %}"
+                                       class="product-box_title text-dark" title="{{ product.name }}">
+                                        <h2 style="font-size: 0.85rem">{{ product.name }}</h2>
+                                    </a>
+                                    <!--product title end-->
+
+                                    <!--price-->
+                                    <a href="{% url 'product:detail' product.id %}"
+                                       title="{{ product.price }}">
+                                        <del>220,000</del>
+                                        <div class="product-box_price-value text-secondary">{{ product.price }}
+                                            <span class="product-box_price-currency">تومان</span>
+                                        </div>
+                                    </a>
+                                    <!--price end-->
+
+                                    <!--action-->
+                                    <div class="product-box_action">
+                                        <button type="button"
+                                                class="btn btn-primary add-to-cart gtm-add-to-cart pr-8 pl-8"
+                                                id="gtm-add-to-cart">
+                                            <i class="ico ico-color_plus-circle filter-none"></i>
+                                            افزودن به سبد
+                                        </button>
                                     </div>
-                                </a>
-                                <!--price end-->
-
-                                <!--action-->
-                                <div class="product-box_action">
-                                    <button type="button"
-                                            class="btn btn-primary add-to-cart gtm-add-to-cart pr-8 pl-8"
-                                            id="gtm-add-to-cart">
-                                        <i class="ico ico-color_plus-circle filter-none"></i>
-                                        افزودن به سبد
-                                    </button>
+                                    <!--action btn-->
                                 </div>
-                                <!--action btn-->
                             </div>
                         </div>
+                        {% endfor %}
+
+
                     </div>
-                    {% endfor %}
-
-
                 </div>
             </div>
-        </div>
-        <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">1</a>
-            <a class="active" href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">&raquo;</a>
+
         </div>
     </div>
-</section>
- </div>
-                {#                <div div="row">#}
-                {#                    <ul class="pagination pagination-lg justify-content-center">#}
-                {#                        <button id="loadMoreBtn" type="button" class="btn orderTableBtn">#}
-                {#                            <li class="page-item disabled"></li>#}
-                {#                            Load more#}
-                {#                        </button>#}
-                {##}
-                {#                        <li class="page-item">#}
-                {#                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"#}
-                {#                               href="#">2</a>#}
-                {#                        </li>#}
-                {#                        <li class="page-item">#}
-                {#                            <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>#}
-                {#                        </li>#}
-                {#                    </ul>#}
-                {#                </div>#}
-            </div>
-<!--section product end-->
 
 
-<!--footer -->
-<footer class="bg-light text-center text-white">
-    <!-- Grid container -->
-    <div class="container p-4 pb-0">
-        <!-- Section: Social media -->
-        <section class="mb-4">
-            <!-- Facebook -->
-            <a
-                    class="btn btn-primary btn-floating m-1"
-                    style="background-color: #3b5998;"
-                    href="#!"
-                    role="button"
-            ><i class="fab fa-facebook-f"></i
-            ></a>
+    <!--section product end-->
 
-            <!-- Twitter -->
-            <a
-                    class="btn btn-primary btn-floating m-1"
-                    style="background-color: #55acee;"
-                    href="#!"
-                    role="button"
-            ><i class="fab fa-twitter"></i
-            ></a>
 
-            <!-- Google -->
-            <a
-                    class="btn btn-primary btn-floating m-1"
-                    style="background-color: #dd4b39;"
-                    href="#!"
-                    role="button"
-            ><i class="fab fa-google"></i
-            ></a>
+    <!--footer -->
+    <footer class="bg-light text-center text-white">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Facebook -->
+                <a
+                        class="btn btn-primary btn-floating m-1"
+                        style="background-color: #3b5998;"
+                        href="#!"
+                        role="button"
+                ><i class="fab fa-facebook-f"></i
+                ></a>
 
-            <!-- Instagram -->
-            <a
-                    class="btn btn-primary btn-floating m-1"
-                    style="background-color: #ac2bac;"
-                    href="#!"
-                    role="button"
-            ><i class="fab fa-instagram"></i
-            ></a>
+                <!-- Twitter -->
+                <a
+                        class="btn btn-primary btn-floating m-1"
+                        style="background-color: #55acee;"
+                        href="#!"
+                        role="button"
+                ><i class="fab fa-twitter"></i
+                ></a>
 
-            <!-- Linkedin -->
-            <a
-                    class="btn btn-primary btn-floating m-1"
-                    style="background-color: #0082ca;"
-                    href="#!"
-                    role="button"
-            ><i class="fab fa-linkedin-in"></i
-            ></a>
-            <!-- Github -->
-            <a
-                    class="btn btn-primary btn-floating m-1"
-                    style="background-color: #333333;"
-                    href="https://github.com/mdbootstrap/mdb-ui-kit"
-                    role="button"
-            ><i class="fab fa-github"></i
-            ></a>
-        </section>
-        <!-- Section: Social media -->
-    </div>
-    <!-- Grid container -->
+                <!-- Google -->
+                <a
+                        class="btn btn-primary btn-floating m-1"
+                        style="background-color: #dd4b39;"
+                        href="#!"
+                        role="button"
+                ><i class="fab fa-google"></i
+                ></a>
 
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2020 Copyright:
-        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-    </div>
-    <!-- Copyright -->
-</footer>
-<!--footer end-->
+                <!-- Instagram -->
+                <a
+                        class="btn btn-primary btn-floating m-1"
+                        style="background-color: #ac2bac;"
+                        href="#!"
+                        role="button"
+                ><i class="fab fa-instagram"></i
+                ></a>
 
-{% endblock %}
+                <!-- Linkedin -->
+                <a
+                        class="btn btn-primary btn-floating m-1"
+                        style="background-color: #0082ca;"
+                        href="#!"
+                        role="button"
+                ><i class="fab fa-linkedin-in"></i
+                ></a>
+                <!-- Github -->
+                <a
+                        class="btn btn-primary btn-floating m-1"
+                        style="background-color: #333333;"
+                        href="https://github.com/mdbootstrap/mdb-ui-kit"
+                        role="button"
+                ><i class="fab fa-github"></i
+                ></a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2020 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!--footer end-->
+ <script src="/static/js/pagination.js"></script>
+    {% endblock %}
 
 

@@ -40,7 +40,7 @@
         <div class="bg-light py-16">
             <div class="container d-flex align-items-center ">
                 <!--logo-->
-                <a href="/" class="ml-auto">
+                <a href="{% url 'product:index' %}" class="ml-auto">
                     <img src="media/product/mylogo.png" height="48" alt="فروشگاه اینترنتی">
                 </a>
                 <!--logo end-->
@@ -116,10 +116,6 @@
     <div class="collapse navbar-collapse" id="main_nav">
         <ul class="navbar-nav">
 
-            <button class="btn" type="button" id="allitem" style="color: #c2c1c1;">
-                همه
-            </button>
-
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #c2c1c1;">
@@ -132,8 +128,9 @@
                         <!-- category section -->
 
 
-                        <a class="dropdown-item text-right" href="#">
-                            {{ category.name }}</a>
+                        <a class="dropdown-item text-right"
+                           href="{% url 'product:product_by_category' category.name %}">
+                            {{ category }}</a>
 
                     </div>
                     {% endfor %}

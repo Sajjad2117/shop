@@ -22,11 +22,11 @@ class DetailView(generic.DetailView):
     context_object_name = 'products'
 
 
-def product_category(request, category):
+def product_by_category(request, category):
     context = dict()
     category_id = Category.objects.get(name=category).id
-    categories = Category.objects.filter(is_active=True)
+    categories = Category.objects.all()
     product_list = Product.objects.filter(category=category_id, is_active=True)
     context['products'] = product_list
     context['categories'] = categories
-    return render(request, 'products/product_by_category.html', context=context)
+    return render(request, 'product/product_category.html', context=context)
