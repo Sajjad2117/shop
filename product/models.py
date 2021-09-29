@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -26,7 +27,7 @@ class Product(models.Model):
     number = models.PositiveIntegerField(blank=True, null=True, default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)             ######## property ### is_exist
 
     class Meta:
         ordering = ('-date_added',)
@@ -35,3 +36,15 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# class ProductDiscount(models.Model):
+#     products = models.ManyToManyField(Product, related_name='discounts')
+#     amount = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+#
+#     class Meta:
+#         verbose_name = 'Product discount'
+#         verbose_name_plural = 'Product discounts'
+#
+#     def __str__(self):
+#         return f'{self.amount}%'

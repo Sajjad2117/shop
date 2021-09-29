@@ -20,7 +20,6 @@ class Customer(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = _("Customer")
@@ -28,14 +27,13 @@ class Customer(AbstractUser):
 
 
 class Address(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    customer = models.ManyToManyField(Customer)
     country = models.CharField(_("Country"), max_length=50, null=True, blank=True)
     province = models.CharField(_("province"), max_length=50, null=True, blank=True)
     city = models.CharField(_("City"), max_length=50)
     phone = models.CharField(_("Phone Number"), max_length=50)
     postcode = models.CharField(_("Postcode"), max_length=50)
     address_line = models.CharField(_("Address Line"), max_length=200)
-    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
 
     class Meta:
