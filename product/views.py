@@ -16,10 +16,20 @@ class IndexView(generic.ListView):
         return context
 
 
-class DetailView(generic.DetailView):
-    model = Product
-    template_name = 'product/detail.html'
-    context_object_name = 'products'
+# class DetailView(generic.DetailView):
+#     model = Product
+#     template_name = 'product/detail.html'
+#     context_object_name = 'products'
+
+def product_detail_view(request, product_id):
+    categories = Category.objects.all()
+    product = Product.objects.filter(id=product_id).first()
+
+    context = {
+        'categories': categories,
+        'product': product,
+    }
+    return render(request, 'product/detail.html', context)
 
 
 def product_by_category(request, category):

@@ -1,10 +1,107 @@
 {% extends 'product/base.html' %}
 {% load static %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+      integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/products.css">
+
+<link rel="stylesheet" type="text/css" href="assets/css/slick.min.css">
+
+<link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+
+{% endblock %}
+
 {% block title %} Detail {% endblock %}
 
+
 {% block content %}
-    <h1> Detail </h1>
+
+
+<!-- Open Content -->
+<section class="bg-light">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-lg-5 mt-5">
+                <div class="card mb-3">
+                    <img class="card-img img-fluid" src="https://pocketnow.com/files/2021/03/iphone-13-concept.jpg"
+                         alt="Card image cap"
+                         id="product-detail">
+                </div>
+
+
+
+            </div>
+            <!-- col end -->
+            <div class="col-lg-7 mt-5">
+                <div class="card">
+                    <div class="card-body text-right">
+                        <!--product title-->
+                                <p class="product-box_title text-dark" title="{{ product.name }}">
+                                    <h2 style="font-size: 1.5rem">{{ product.name }}</h2>
+                                </p>
+                                <!--product title end-->
+                         <!--price-->
+                                <p>
+                                    <div class="product-box_price-value text-secondary">{{ product.price }}
+                                        <span class="product-box_price-currency">تومان</span>
+                                    </div>
+                                </p>
+                                <!--price end-->
+
+
+                        <h6>توضیحات:</h6>
+                        <p>{{ product.description }}</p>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <h6>موجودی در انبار:</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text"><strong>{{ product.number }}</strong></p>
+                            </li>
+                        </ul>
+
+                        <form action="" method="GET">
+                            <input type="hidden" name="product-title" value="Activewear">
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="list-inline pb-3">
+                                        <li class="list-inline-item text-right">
+                                            تعداد
+                                            <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                        </li>
+                                        <li class="list-inline-item"><span class="btn btn-primary"
+                                                                           id="btn-minus">-</span></li>
+                                        <li class="list-inline-item"><span class="badge bg-secondary"
+                                                                           id="var-value">1</span></li>
+                                        <li class="list-inline-item"><span class="btn btn-primary"
+                                                                           id="btn-plus">+</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg" name="submit" value="buy">
+                                        خرید
+                                    </button>
+                                </div>
+                                <div class="col d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg" name="submit"
+                                            value="addtocard">افزودن به سبد
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="featurette-divider">
+    </div>
+</section>
+<!-- Close Content -->
+
 
 
 {% endblock %}
