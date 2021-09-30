@@ -143,19 +143,18 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
 # media configuration
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
-
 
 AUTH_USER_MODEL = 'customer.Customer'
 
 LOGIN_REDIRECT_URL = '/product/'
 LOGIN_URL = '/customer/login/'
 LOGOUT_REDIRECT_URL = '/product/'
+
+CART_SESSION_ID = 'cart'
