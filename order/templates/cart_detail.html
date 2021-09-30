@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Shabnam font-->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard-rtl/">
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/5.0/examples/dashboard/dashboard.rtl.css" rel="stylesheet">
+<title>Oreder History</title>
+</head>
+<body>
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'product:index' %}">فروشگاه</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="عرض/إخفاء لوحة التنقل">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+</header>
+<div class="container">
+    <div class="row" style="margin-top: 6%">
+        <h2>Your Shopping Cart
+            <span class="badge pull-right">
+                {% with totail_items=cart|length %}
+                    {% if cart|length > 0 %}
+                        My Shopping Order:
+                        <a href="{% url  'cart:cart_detail' %}" style="color: #ffffff">
+                            {{ totail_items }} item {{ totail_items|pluralize }}, Kshs. {{ cart.get_total_price }}
+                </a>
+                {% else %}
+                            Your cart is empty.
+                    {% endif %}
+                {% endwith %}
+            </span>
+        </h2>
+        <table class="table table-striped table-hover">
+            <thead style="background-color: #5AC8FA">
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+                <th>Unit Price</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+            {% with product=item.product %}
+            <tr>
+                <td>
+                    <a href="{{ product.get__absolute_url }}">
+                        <img src="https://pocketnow.com/files/2021/03/iphone-13-concept.jpg "
+                             alt="..." style="height: 130px; width: auto">
+                    </a>
+                </td>
+                <td>{{ product.name }}</td>
+                <td>
+                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                    {% csrf_token %}
+                    {{ item.update_quantity_form.quantity }}
+                    {{ item.update_quantity_form.update }}
+                    <input type="submit" value="Update" class="btn btn-info">
+                    </form>
+                </td>
+                <td>
+                    <a href="{% url  'cart:cart_remove' product.id %}">Remove</a>
+                </td>
+                <td>kshs. {{ item.price }}</td>
+                <td>kshs. {{ item.total_price }}</td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+            <tr style="background-color: #5AC8FA">
+                <td><b>Total</b></td>
+                <td colspan="4"></td>
+                <td colspan="num"><b>kshs. {{ cart.get_total_price }}</b></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="text-left ">
+            <a href="{% url 'product:index' %}" class="btn btn-default">Continue Shopping</a>
+            <a href="" class="btn btn-primary">Checkout</a>
+        </p>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</html>
