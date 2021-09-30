@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Third applications
     'mptt',
     'rest_framework',
+    'stripe',
 
     # apps config
     'core',
@@ -133,6 +134,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
@@ -158,3 +160,18 @@ LOGIN_URL = '/customer/login/'
 LOGOUT_REDIRECT_URL = '/product/'
 
 CART_SESSION_ID = 'cart'
+
+# Stripe and Braintree Settings
+
+if DEBUG:
+    # test keys
+    STRIPE_PUBLISHABLE_KEY = ''
+    STRIPE_SECRET_KEY = ''
+    BT_ENVIRONMENT = 'sandbox'
+    BT_MERCHANT_ID = 'YOUR BT_MERCHANT_ID'
+    BT_PUBLIC_KEY = 'YOUR BT_PUBLIC_KEY'
+    BT_PRIVATE_KEY = 'YOUR BT_PRIVATE_KEY'
+else:
+    # live keys
+    STRIPE_PUBLISHABLE_KEY = 'YOUR STRIPE LIVE PUB KEY'
+    STRIPE_SECRET_KEY = 'YOUR STRIPE LIVE SECRET KEY'
