@@ -11,7 +11,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             enctype: 'multipart/form-data',
-            url: "/api/user/register/",
+            url: "http://127.0.0.1:8000/api/user/register/",
             data: data,
             processData: false,
             contentType: false,
@@ -19,7 +19,7 @@ $(document).ready(function () {
             timeout: 600000,
             success: function () {
                 alert(data['username'] + ' ' + 'register is success')
-                window.location = '/customer/register/';
+                window.location = '/customer/login/';
             },
             error: function (error) {
                 console.log("ERROR : ", error);

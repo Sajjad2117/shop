@@ -6,18 +6,41 @@ from rest_framework.permissions import AllowAny
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.utils.translation import gettext_lazy as _
 
 from . import serializers
 
 from customer.models import Customer
 
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, ChangePasswordSerializer
 
 
 class RegisterAPIView(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = (AllowAny,)
+
+
+class SetChangePasswordView(generics.GenericAPIView):
+    serializer_class = ChangePasswordSerializer
+
+    def patch(self, request):
+        username = request.data['username']
+        customer = Customer.objects.get(username=username)
+        serializer = self.get_serializer(data=request.data)
+        if not customer.check_password(request.data['old_password']):
+            return Response({"old_password": _("Wrong password.")}, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            customer.set_password(request.data['new_password'])
+            customer.save()
+            response = {
+                'status': 'success',
+                'message': _('Password updated successfully'),
+            }
+
+            return Response(response, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # class RegisterView(CreateAPIView):
 #     renderer_classes = (JSONRenderer,)

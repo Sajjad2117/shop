@@ -52,7 +52,7 @@
         }
     </style>
 
-    <title>Title</title>
+    <title>Profile</title>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -120,7 +120,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for order in recent_orders %}
+                        {% for order in orders_history %}
                         <tr>
                             <td>{{ order.order.id }}</td>
                             <td dir="ltr">{{ order.created|date:"Y-m-d H:i" }}</td>

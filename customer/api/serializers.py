@@ -33,11 +33,28 @@ class RegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError(_('Password fields didn’t match'))
         return attrs
 
-# class ResetPasswordEmailRequestSerializer(serializers.Serializer):
-#     email = serializers.EmailField(min_length=2)
-#
-#     class Meta:
-#         fields = ['email']
+
+class ChangePasswordSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=70, label=_('username'))
+    old_password = serializers.CharField(min_length=6, max_length=100, write_only=True)
+    new_password = serializers.CharField(min_length=6, max_length=100, write_only=True)
+    new_password_check = serializers.CharField(min_length=6, max_length=100, write_only=True)
+
+    class Meta:
+        fields = ['username', 'old_password', 'new_password', 'new_password_check']
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['new_password_check']:
+            raise serializers.ValidationError(_("Password fields didn't match."))
+
+        return super().validate(attrs)
+
+
+class ResetPasswordEmailRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+
+    class Meta:
+        fields = ['email']
 #
 #
 # class SetNewPasswordSerializer(serializers.Serializer):

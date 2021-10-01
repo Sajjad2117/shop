@@ -26,3 +26,10 @@ class CustomerForm(ModelForm):
         widgets = {
             'profile_image': forms.FileInput(attrs={'class': 'form-control-file'})
         }
+
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput())
+    new_password = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput())
+    new_password_check = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput())
+

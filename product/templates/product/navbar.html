@@ -91,13 +91,16 @@
                     <!--login dropdown end-->
 
                     <!--shopping cart-->
-                    <button class="btn  cart-wrapper position-relative p-0" type="button" id="offcanvas-trigger-cart">
 
-                        <!--                        <div class="topCartCount bag-item-count">0</div>-->
-                        <img src="https://cdn3.iconfinder.com/data/icons/e-commerce-2-2/380/1-512.png"
-                             style="width: 45px;height:45px;" alt="cart icon"/>
 
-                    </button>
+                        <button class="btn  cart-wrapper position-relative p-0" type="button"
+                                id="offcanvas-trigger-cart">
+
+                            <div class="topCartCount bag-item-count">0</div>
+                            <img src="https://cdn3.iconfinder.com/data/icons/e-commerce-2-2/380/1-512.png"
+                                 style="width: 45px;height:45px;" alt="cart icon"/>
+
+                        </button>
                     <!--shopping cart end-->
 
 
@@ -149,8 +152,8 @@
 
     {% if request.user.is_authenticated %}
     <span style="color: white; margin-right: 20px">Hello {{ request.user }}</span>
-    <span><a href="{% url 'customer:edit_profile' %}" class="text-light nav-link"
-             style="margin-right: 20px">Edit Profile</a> </span>
+    <span><a href="{% url 'customer:profile' %}" class="text-light nav-link"
+             style="margin-right: 20px">Profile</a> </span>
     <span><a href="{% url 'customer:logout' %}" class="text-light nav-link"
              style="margin-right: 20px">Log out</a> </span>
 

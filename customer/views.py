@@ -11,48 +11,11 @@ from .models import *
 from .forms import *
 
 
-# class RegisterView(View):
-#     form_class = CustomerRegisterForm
-#     template_name = 'customer/register.html'
-#     initial = {'key': 'value'}
-#
-#     def get(self, request, *args, **kwargs):
-#         form = self.form_class(initial=self.initial)
-#         return render(request, self.template_name, {'form': form})
-
-
 class RegisterView(FormView):
     form_class = CustomerRegisterForm
     template_name = 'customer/register.html'
-    success_url = "/product/"
+    success_url = "product:index"
 
-
-class LoginUserView(LoginView):
-    authentication_form = CustomerLoginForm
-    # redirect_field_name = 'next'
-    template_name = 'customer/login.html'
-
-    # redirect_authenticated_user = True
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            if 'next' in request.GET:
-                return HttpResponseRedirect(request.GET['next'])
-            return redirect('product:index')
-        return super().get(request, *args, **kwargs)
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('product:index')
-#     return render(request, 'customer/login.html')
-#
-#
 # def register_view(request):
 #     form = CustomerRegisterForm()
 #     if request.method == 'POST':
@@ -64,9 +27,28 @@ class LoginUserView(LoginView):
 #     return render(request, 'customer/register.html', context)
 
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('product:index')
+    return render(request, 'customer/login.html')
+
+
 def logout_view(request):
     logout(request)
     return redirect('product:index')
+
+
+@login_required
+def profile_view(request):
+    customer = Customer.objects.get(id=request.user.id)
+    form = CustomerForm(instance=customer)
+    context = {'form': form}
+    return render(request, 'customer/profile.html', context)
 
 
 @login_required
