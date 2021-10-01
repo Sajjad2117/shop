@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import  RegisterAPIView
+from .views import RegisterAPIView, ChangePasswordView
 
 app_name = "customer"
 
@@ -12,4 +12,5 @@ urlpatterns = [
 
     # path("login/", UserLoginAPIView.as_view(), name="Login"),
     path("register/", RegisterAPIView.as_view(), name="Register"),
+    path('change-password/', ChangePasswordView.as_view(), name='change_password_api'),
 ]

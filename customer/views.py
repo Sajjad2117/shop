@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -62,3 +63,8 @@ def edit_profile_view(request):
             return redirect('product:index')
     context = {'form': form}
     return render(request, 'customer/edit_profile.html', context)
+
+
+class ChangePasswordView(LoginRequiredMixin, FormView):
+    form_class = ChangePasswordForm
+    template_name = 'customer/change_password.html'

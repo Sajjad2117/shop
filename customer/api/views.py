@@ -1,8 +1,8 @@
 from django.conf import settings
 from rest_framework import generics, permissions, status, views
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -21,26 +21,65 @@ class RegisterAPIView(generics.ListCreateAPIView):
     permission_classes = (AllowAny,)
 
 
-class SetChangePasswordView(generics.GenericAPIView):
-    serializer_class = ChangePasswordSerializer
+# class ChangePasswordView(generics.GenericAPIView):
+#     serializer_class = ChangePasswordSerializer
+#
+#     def patch(self, request):
+#         username = request.data['username']
+#         customer = Customer.objects.get(username=username)
+#         serializer = self.get_serializer(data=request.data)
+#         if not customer.check_password(request.data['old_password']):
+#             return Response({"old_password": _("Wrong password.")}, status=status.HTTP_400_BAD_REQUEST)
+#         if serializer.is_valid():
+#             customer.set_password(request.data['new_password'])
+#             customer.save()
+#             response = {
+#                 'status': 'success',
+#                 'message': _('Password updated successfully'),
+#             }
+#
+#             return Response(response, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request):
-        username = request.data['username']
-        customer = Customer.objects.get(username=username)
+
+class ChangePasswordView(UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    model = Customer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
         serializer = self.get_serializer(data=request.data)
-        if not customer.check_password(request.data['old_password']):
-            return Response({"old_password": _("Wrong password.")}, status=status.HTTP_400_BAD_REQUEST)
+
         if serializer.is_valid():
-            customer.set_password(request.data['new_password'])
-            customer.save()
+            if not self.object.check_password(serializer.validated_data['old_password']):
+                return Response({"password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+
+            elif len(serializer.validated_data['new_password']) < 8:
+                return Response({"new_password": ["Your password must be at least 8 characters long."]},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            elif serializer.validated_data['new_password'] != serializer.validated_data['new_password_check']:
+                return Response({"passwords": ["New password and New password check must match."]},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            self.object.set_password(serializer.validated_data['new_password'])
+            self.object.save()
+
             response = {
                 'status': 'success',
-                'message': _('Password updated successfully'),
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
             }
 
-            return Response(response, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(response)
 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # class RegisterView(CreateAPIView):
 #     renderer_classes = (JSONRenderer,)

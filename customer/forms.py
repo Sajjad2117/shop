@@ -33,3 +33,4 @@ class ChangePasswordForm(forms.Form):
     new_password = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput())
     new_password_check = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput())
 
+
