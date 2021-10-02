@@ -16,8 +16,6 @@ from order.extras import generate_order_id
 
 from order.forms import CartAddProductForm
 
-from order.cart import Cart
-
 
 def orders_history_view(request):
     if request.user.is_authenticated:
@@ -39,33 +37,153 @@ def recent_orders_view(request):
     return redirect(reverse("customer:login"))
 
 
-@require_POST
-def cart_add_view(request, product_id):
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    form = CartAddProductForm(request.POST)
-    if form.is_valid():
-        cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
-    return redirect('cart_detail')
-#
-#
-def cart_remove_view(request, product_id):
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    cart.remove(product)
-    return redirect('cart_detail')
-#
-#
 def cart_detail_view(request):
-    cart = Cart(request)
-    products = []
-    for item in cart:
-        item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})
-        products.append(item)
-    context = {'cart': cart}
-    context['products'] = products
-    return render(request, 'cart_detail.html', context)
+    basket = request.session['basket']
+    print(basket)
+    product_list = dict()
+    for item in basket:
+        product = Product.objects.filter(id=item).first()
+        product_list[product] = basket[item]
+
+    print(product_list)
+
+    context = {
+        'products': product_list,
+    }
+
+    return render(request, 'cart.html', context)
+
+
+def cart_add_view(request):
+    product_id = request.POST['product-id']
+    product_quantity = request.POST['product-quantity']
+
+    if not request.session.get('basket'):
+        request.session['basket'] = {
+            product_id: product_quantity
+        }
+    else:
+        cart = request.session.get('basket')
+        cart[product_id] = product_quantity
+        request.session.modified = True
+
+    print(request.session.get('basket'))
+
+    return redirect('order:cart')
+
+
+def cart_remove_view(request, product_id):
+    cart = request.session.get('basket')
+    cart.pop(str(product_id))
+    request.session.modified = True
+
+    return redirect('order:cart')
+
+
+# @require_POST
+# def cart_add_view(request, product_id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=product_id)
+#     form = CartAddProductForm(request.POST)
+#     if form.is_valid():
+#         cd = form.cleaned_data
+#         cart.add(
+#             product=product,
+#             quantity=cd['quantity'],
+#             update_quantity=cd['update']
+#         )
+#     print(request.session['cart'])
+#     return redirect('order:cart_detail')
+#
+#
+# def cart_remove_view(request, product_id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=product_id)
+#     cart.remove(product)
+#     return redirect('order:cart_detail')
+#
+#
+# def cart_detail_view(request):
+#     cart = Cart(request)
+#     for item in cart:
+#         item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})
+#
+#     # coupon_apply_form = CouponApplyForm()
+#     # context = {'cart': cart, 'coupon_apply_form': coupon_apply_form}
+#
+#     context = {'cart': cart}
+#
+#     return render(request, 'cart_detail.html', context)
+#
+
+#
+# def cart_detail_view(request):
+#     cart = request.session.get['cart']
+#     products = dict()
+#     for item in cart:
+#         product = Product.objects.filter(id=item).first()
+#         products[product] = cart[item]
+#     context = {
+#         'products': products,
+#     }
+#     return render(request, 'order/cart.html', context)
+
+
+#
+#
+# def add_to_cart(request, **kwargs):
+#
+#     product = Product.objects.filter(id=kwargs.get('item_id', "")).first()
+#
+#     order_item, status = OrderItem.objects.get_or_create(product=product)
+#     # create order associated with the user
+#     user_order, status = Order.objects.get_or_create(owner=user_profile, is_ordered=False)
+#     user_order.items.add(order_item)
+#     if status:
+#         # generate a reference code
+#         user_order.ref_code = generate_order_id()
+#         user_order.save()
+#
+#     # show confirmation message and redirect back to the same page
+#     messages.info(request, "item added to cart")
+#     return redirect(reverse('products:product-list'))
+
+# @require_POST
+# def cart_add_view(request, product_id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=product_id)
+#     form = CartAddProductForm(request.POST)
+#     if form.is_valid():
+#         cd = form.cleaned_data
+#         cart.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
+#     return redirect(reverse('order:cart_detail'))
+
+
+# def cart_remove_view(request, product_id):
+#     cart = Cart(request)
+#     product = get_object_or_404(Product, id=product_id)
+#     cart.remove(product)
+#     return redirect(reverse('order:cart_detail'))
+
+
+# def cart_detail_view(request):
+#     cart = Cart(request)
+#     for item in cart:
+#         item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})
+#     if request.user.id:
+#         customer = Customer.objects.get(id=request.user.id)
+#         return render(request, 'cart_detail.html', {'cart': cart, 'customer': customer})
+#     return render(request, 'cart_detail.html', {'cart': cart})
+
+
+# def cart_detail_view(request):
+#     cart = Cart(request)
+#     products = []
+#     for item in cart:
+#         item['update_quantity_form'] = CartAddProductForm(initial={'quantity': item['quantity'], 'update': True})
+#         products.append(item)
+#     context = {'cart': cart, 'products': products}
+#     return render(request, 'cart_detail.html', context)
 
 
 # stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -122,4 +240,4 @@ def cart_detail_view(request):
 
 def success(request, **kwargs):
     # a view signifying the transcation was successful
-    return render(request, 'order/purchase_success.html', {})
+    return render(request, 'purchase_success.html', {})
