@@ -30,24 +30,23 @@
                 </div>
 
 
-
             </div>
             <!-- col end -->
             <div class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body text-right">
                         <!--product title-->
-                                <p class="product-box_title text-dark" title="{{ product.name }}">
-                                    <h2 style="font-size: 1.5rem">{{ product.name }}</h2>
-                                </p>
-                                <!--product title end-->
-                         <!--price-->
-                                <p>
-                                    <div class="product-box_price-value text-secondary">{{ product.price }}
-                                        <span class="product-box_price-currency">تومان</span>
-                                    </div>
-                                </p>
-                                <!--price end-->
+                        <p class="product-box_title text-dark" title="{{ product.name }}">
+                        <h2 style="font-size: 1.5rem">{{ product.name }}</h2>
+                        </p>
+                        <!--product title end-->
+                        <!--price-->
+                        <p>
+                        <div class="product-box_price-value text-secondary">{{ product.price }}
+                            <span class="product-box_price-currency">تومان</span>
+                        </div>
+                        </p>
+                        <!--price end-->
 
 
                         <h6>توضیحات:</h6>
@@ -61,14 +60,15 @@
                             </li>
                         </ul>
 
-                        <form action="" method="GET">
-                            <input type="hidden" name="product-title" value="Activewear">
+                        <form action="{% url 'order:cart_add' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="product-id"  value={{ product.id }}>
                             <div class="row">
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
                                         <li class="list-inline-item text-right">
                                             تعداد
-                                            <input type="hidden" name="product-quanity" id="product-quanity" value="1">
+                                            <input type="hidden" name="product-quantity" id="product-quantity" value="1">
                                         </li>
                                         <li class="list-inline-item"><span class="btn btn-primary"
                                                                            id="btn-minus">-</span></li>
@@ -101,7 +101,6 @@
     </div>
 </section>
 <!-- Close Content -->
-
 
 
 {% endblock %}

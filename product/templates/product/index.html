@@ -266,16 +266,14 @@
                                 <!--price end-->
 
                                 <!--action-->
-                                <a href="{% url 'product:detail' product.id %}">
-                                <div class="product-box_action">
-                                    <button type="button"
-                                            class="btn btn-primary add-to-cart gtm-add-to-cart pr-8 pl-8"
-                                            id="gtm-add-to-cart">
-                                        <i class="ico ico-color_plus-circle filter-none"></i>
-                                        افزودن به سبد
-                                    </button>
+                                <div class="buttons">
+                                    <form class="form-group" method="post"
+                                          action="{% url 'order:cart_add' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="productID" value={{ product.id }}>
+                                        <button type="submit" class="btn btn-primary mt-2">افزودن به سبد</button>
+                                    </form>
                                 </div>
-                                </a>
                                 <!--action btn-->
                             </div>
                         </div>

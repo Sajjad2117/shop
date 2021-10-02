@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css"
@@ -13,11 +13,11 @@
 
     <!-- Custom styles for this template -->
     <link href="https://getbootstrap.com/docs/5.0/examples/dashboard/dashboard.rtl.css" rel="stylesheet">
-<title>Oreder History</title>
+<title>Cart detail</title>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'product:index' %}">فروشگاه</a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'product:index' %}">Home</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="عرض/إخفاء لوحة التنقل">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -30,7 +30,7 @@
                 {% with totail_items=cart|length %}
                     {% if cart|length > 0 %}
                         My Shopping Order:
-                        <a href="{% url  'cart:cart_detail' %}" style="color: #ffffff">
+                        <a href="{% url  'order:cart_detail' %}" style="color: #ffffff">
                             {{ totail_items }} item {{ totail_items|pluralize }}, Kshs. {{ cart.get_total_price }}
                 </a>
                 {% else %}
@@ -51,31 +51,31 @@
             </tr>
             </thead>
             <tbody>
-            {% for item in cart %}
-            {% with product=item.product %}
+            {% for key, value in products.items %}
+
             <tr>
                 <td>
                     <a href="{{ product.get__absolute_url }}">
-                        <img src="https://pocketnow.com/files/2021/03/iphone-13-concept.jpg "
+                        <img src="media/{{ key.image }}"
                              alt="..." style="height: 130px; width: auto">
                     </a>
                 </td>
-                <td>{{ product.name }}</td>
+                <td>{{ key.name }}</td>
                 <td>
-                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                    <form action="{% url 'order:cart_add'  %}" method="post">
                     {% csrf_token %}
-                    {{ item.update_quantity_form.quantity }}
-                    {{ item.update_quantity_form.update }}
+                    {{ key.update_quantity_form.quantity }}
+                    {{ key.update_quantity_form.update }}
                     <input type="submit" value="Update" class="btn btn-info">
                     </form>
                 </td>
                 <td>
-                    <a href="{% url  'cart:cart_remove' product.id %}">Remove</a>
+                    <a href="{% url  'order:cart_remove' product.id %}">Remove</a>
                 </td>
-                <td>kshs. {{ item.price }}</td>
-                <td>kshs. {{ item.total_price }}</td>
+                <td>kshs. {{ key.price }}</td>
+                <td>kshs. {{ key.total_price }}</td>
             </tr>
-            {% endwith %}
+
             {% endfor %}
             <tr style="background-color: #5AC8FA">
                 <td><b>Total</b></td>
@@ -84,9 +84,9 @@
             </tr>
             </tbody>
         </table>
-        <p class="text-left ">
-            <a href="{% url 'product:index' %}" class="btn btn-default">Continue Shopping</a>
-            <a href="" class="btn btn-primary">Checkout</a>
+        <p class="text-right ">
+            <a href="{% url 'product:index' %}" class="btn btn-primary">Continue Shopping</a>
+<!--            <a href="" class="btn btn-default">Checkout</a>-->
         </p>
     </div>
 </div>
