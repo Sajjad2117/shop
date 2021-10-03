@@ -1,11 +1,22 @@
-{% extends 'base.html' %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Shabnam font-->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard-rtl/">
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet"
+          integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
 
-
-{% block title %}Basket{% endblock %}
-
-
-{% block content %}
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/5.0/examples/dashboard/dashboard.rtl.css" rel="stylesheet">
+    <title>Cart detail</title>
+</head>
+<body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'product:index' %}">Home</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
@@ -15,19 +26,18 @@
     </button>
 
 </header>
-
 <div class="container">
     <div class="row" style="margin-top: 6%">
         <h2>Your Shopping Cart </h2>
         <table class="table table-striped table-hover">
             <thead style="background-color: #5AC8FA">
             <tr>
-                <th>Image</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Remove</th>
-                <th>Unit Price</th>
-                <th>Price</th>
+                <th style="width: 20%">Image</th>
+                <th style="width: 20%">Product</th>
+                <th style="width: 10%">Unit Price</th>
+                <th style="width: 10%">Quantity</th>
+                <th style="width: 5%">Remove</th>
+                <th class="text-center" style="width: 20%">Price</th>
             </tr>
             </thead>
             <tbody>
@@ -37,22 +47,32 @@
                 <td>
                     <div class="product-image">
                         <a href="{% url 'product:detail' key.id %}">
-                            <img src="https://pocketnow.com/files/2021/03/iphone-13-concept.jpg" alt="Product Image"
-                                 class="product-frame"
-                                 style="height: 130px; width: auto"></a>
+<!--                            <img src="https://pocketnow.com/files/2021/03/iphone-13-concept.jpg" alt="Product Image"-->
+                            <img src="{{ key.image.url }}" alt="Product Image"
+                                 class="product-frame "
+                                 style="height: 130px; width: 180px;"></a>
                     </div>
 
                 </td>
                 <td>
-                    <div class="product-name" style="height: 130px; width: 250px" dir="rtl">
+                    <div class="product-name" style="height: 130px; width: 200px" dir="rtl">
                         <h6>{{ key.name }}</h6>
 
                     </div>
 
                 </td>
+                <td>{{ key.price }}</td>
+                <!--                 <td>-->
+                <!--                    <form action="{% url 'order:cart_add'  %}" method="post">-->
+                <!--                    {% csrf_token %}-->
+                <!--                    {{ key.update_quantity_form.quantity }}-->
+                <!--                    {{ key.update_quantity_form.update }}-->
+                <!--                    <input type="submit" value="Update" class="btn btn-info">-->
+                <!--                    </form>-->
+                <!--                </td>-->
                 <td>
                     <div class="quantity">
-                        <input type="number" value="{{ value }}" min="1" class="quantity-field">
+                        <input class="quantity-field" style="width: 80px" type="number" value="{{ value }}" min="1">
                     </div>
                 </td>
                 <td>
@@ -61,7 +81,7 @@
                         Delete
                     </a>
                 </td>
-                <td>{{ key.price }}</td>
+
                 <td>{{ key.total_price }}</td>
             </tr>
 
@@ -73,12 +93,23 @@
             </tr>
             </tbody>
         </table>
-        <p class="text-center ">
+        <p class="text-right ">
             <a href="{% url 'product:index' %}" class="btn btn-primary">Continue Shopping</a>
-            <a href="" class="btn btn-default">Checkout</a>
+            <a href="{% url 'order:checkout' %}" class="btn btn-primary">Checkout</a>
         </p>
     </div>
 </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</html>
 
 
-{% endblock %}

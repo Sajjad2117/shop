@@ -1,5 +1,4 @@
 from datetime import date, timedelta
-
 import stripe as stripe
 from django.conf import settings
 from django.contrib import messages
@@ -14,7 +13,13 @@ from product.models import Product
 from customer.models import Customer
 from order.extras import generate_order_id
 
-from order.forms import CartAddProductForm
+from order.extras import generate_client_token
+
+from order.extras import transact
+
+from customer.models import Address
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def orders_history_view(request):
@@ -39,25 +44,19 @@ def recent_orders_view(request):
 
 def cart_detail_view(request):
     basket = request.session['basket']
-    print(basket)
     product_list = dict()
     for item in basket:
         product = Product.objects.filter(id=item).first()
         product_list[product] = basket[item]
-
-    print(product_list)
-
     context = {
         'products': product_list,
     }
-
     return render(request, 'cart.html', context)
 
 
 def cart_add_view(request):
     product_id = request.POST['product-id']
-    product_quantity = request.POST['product-quantity']
-
+    product_quantity = request.POST['product-quanity']
     if not request.session.get('basket'):
         request.session['basket'] = {
             product_id: product_quantity
@@ -83,3 +82,87 @@ def cart_remove_view(request, product_id):
 def success(request, **kwargs):
     # a view signifying the transcation was successful
     return render(request, 'purchase_success.html', {})
+
+
+def get_user_pending_order(request):
+    # get order for the correct user
+    user_profile = get_object_or_404(Customer, user=request.user)
+    order = Order.objects.filter(owner=user_profile, is_ordered=False)
+    if order.exists():
+        # get the only order in the list of filtered orders
+        return order[0]
+    return 0
+
+
+# @login_required()
+# def checkout(request, **kwargs):
+#     client_token = generate_client_token()
+#     existing_order = get_user_pending_order(request)
+#     publishKey = settings.STRIPE_PUBLISHABLE_KEY
+#     if request.method == 'POST':
+#         token = request.POST.get('stripeToken', False)
+#         if token:
+#             charge = stripe.Charge.create(
+#                 amount=100 * existing_order.get_cart_total(),
+#                 currency='usd',
+#                 description='Example charge',
+#                 source=token,
+#             )
+#
+#             return redirect(reverse('shopping_cart:update_records',
+#                                     kwargs={
+#                                         'token': token
+#                                     })
+#                             )
+#
+#         else:
+#             result = transact({
+#                 'amount': existing_order.get_cart_total(),
+#                 'payment_method_nonce': request.POST['payment_method_nonce'],
+#                 'options': {
+#                     "submit_for_settlement": True
+#                 }
+#             })
+#
+#             if result.is_success or result.transaction:
+#                 return redirect(reverse('shopping_cart:update_records',
+#                                         kwargs={
+#                                             'token': result.transaction.id
+#                                         })
+#                                 )
+#
+#     context = {
+#         'order': existing_order,
+#         'client_token': client_token,
+#         'STRIPE_PUBLISHABLE_KEY': publishKey
+#     }
+#
+#     return render(request, 'shopping_cart/checkout.html', context)
+
+
+@login_required
+def checkout(request):
+    # cart = Cart(request)
+    # if len(cart.cart) != 0:
+    #     if 'discount' in request.session.keys():
+    #         discount = request.session['discount']
+    #         final_price = cart.get_cart_total_price(discount)
+    #         del request.session['discount']
+    #
+    #     else:
+    #         discount = 0
+    #         final_price = cart.get_cart_total_price()
+
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=request.user.id)
+        address = Address.objects.get(id=request.POST['address'])
+        order = Order.objects.create(customer=customer, discount=discount, final_price=final_price,
+                                     address=address)
+        # for item in cart:
+        #     order.items.add(OrderItem.objects.create(product=item['product'],
+        #                                              quantity=item['product_count']
+        #                                              ))
+        del request.session['cart']
+        return render(request, 'orders/invoice.html', {'order': order})
+
+    return render(request, 'checkout.html')

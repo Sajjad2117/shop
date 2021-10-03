@@ -2,7 +2,9 @@
 {% load static %}
 
 {% block title %} Product list {% endblock %}
-
+{% block extra_head %}
+<link rel="stylesheet" href="/static/css/item_count.css">
+{% endblock %}
 {% block content %}
 
 
@@ -266,14 +268,21 @@
                                 <!--price end-->
 
                                 <!--action-->
+
                                 <div class="buttons">
                                     <form class="form-group" method="post"
-                                          action="{% url 'order:cart_add' %}">
+                                          action="{% url 'product:detail' product.id %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="productID" value={{ product.id }}>
-                                        <button type="submit" class="btn btn-primary mt-2">افزودن به سبد</button>
+                                        <button type="submit" class="btn btn-primary mt-2 " id="addcart">افزودن به سبد
+                                        </button>
                                     </form>
                                 </div>
+                                <!--                                <div class="col d-grid">-->
+                                <!--                                    <button type="submit" class="btn btn-primary btn-lg" name="submit"-->
+                                <!--                                            value="addtocard" id="addcart">افزودن به سبد-->
+                                <!--                                    </button>-->
+                                <!--                                </div>-->
                                 <!--action btn-->
                             </div>
                         </div>
@@ -287,82 +296,60 @@
 
     </div>
     </div>
+</section>
+
+<!--section product end-->
 
 
-    <!--section product end-->
+<footer class="bg-dark text-center text-white">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+            <!-- Facebook -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-facebook-f"></i
+            ></a>
 
+            <!-- Twitter -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-twitter"></i
+            ></a>
 
-    <!--footer -->
-    <footer class="bg-light text-center text-white">
-        <!-- Grid container -->
-        <div class="container p-4 pb-0">
-            <!-- Section: Social media -->
-            <section class="mb-4">
-                <!-- Facebook -->
-                <a
-                        class="btn btn-primary btn-floating m-1"
-                        style="background-color: #3b5998;"
-                        href="#!"
-                        role="button"
-                ><i class="fab fa-facebook-f"></i
-                ></a>
+            <!-- Google -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-google"></i
+            ></a>
 
-                <!-- Twitter -->
-                <a
-                        class="btn btn-primary btn-floating m-1"
-                        style="background-color: #55acee;"
-                        href="#!"
-                        role="button"
-                ><i class="fab fa-twitter"></i
-                ></a>
+            <!-- Instagram -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-instagram"></i
+            ></a>
 
-                <!-- Google -->
-                <a
-                        class="btn btn-primary btn-floating m-1"
-                        style="background-color: #dd4b39;"
-                        href="#!"
-                        role="button"
-                ><i class="fab fa-google"></i
-                ></a>
+            <!-- Linkedin -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-linkedin-in"></i
+            ></a>
 
-                <!-- Instagram -->
-                <a
-                        class="btn btn-primary btn-floating m-1"
-                        style="background-color: #ac2bac;"
-                        href="#!"
-                        role="button"
-                ><i class="fab fa-instagram"></i
-                ></a>
+            <!-- Github -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+            ><i class="fab fa-github"></i
+            ></a>
+        </section>
+        <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
 
-                <!-- Linkedin -->
-                <a
-                        class="btn btn-primary btn-floating m-1"
-                        style="background-color: #0082ca;"
-                        href="#!"
-                        role="button"
-                ><i class="fab fa-linkedin-in"></i
-                ></a>
-                <!-- Github -->
-                <a
-                        class="btn btn-primary btn-floating m-1"
-                        style="background-color: #333333;"
-                        href="https://github.com/mdbootstrap/mdb-ui-kit"
-                        role="button"
-                ><i class="fab fa-github"></i
-                ></a>
-            </section>
-            <!-- Section: Social media -->
-        </div>
-        <!-- Grid container -->
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+{% block js %}
+<script src="/static/js/pagination.js"></script>
+<script src="/static/js/item_count.js"></script>
+{% endblock %}
 
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2020 Copyright:
-            <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-        </div>
-        <!-- Copyright -->
-    </footer>
-    <!--footer end-->
-    <script src="/static/js/pagination.js"></script>
-
-    {% endblock %}
+{% endblock %}
