@@ -140,29 +140,3 @@ def get_user_pending_order(request):
 #     return render(request, 'shopping_cart/checkout.html', context)
 
 
-@login_required
-def checkout(request):
-    # cart = Cart(request)
-    # if len(cart.cart) != 0:
-    #     if 'discount' in request.session.keys():
-    #         discount = request.session['discount']
-    #         final_price = cart.get_cart_total_price(discount)
-    #         del request.session['discount']
-    #
-    #     else:
-    #         discount = 0
-    #         final_price = cart.get_cart_total_price()
-
-    if request.method == 'POST':
-        customer = Customer.objects.get(id=request.user.id)
-        address = Address.objects.get(id=request.POST['address'])
-        order = Order.objects.create(customer=customer, discount=discount, final_price=final_price,
-                                     address=address)
-        # for item in cart:
-        #     order.items.add(OrderItem.objects.create(product=item['product'],
-        #                                              quantity=item['product_count']
-        #                                              ))
-        del request.session['cart']
-        return render(request, 'orders/invoice.html', {'order': order})
-
-    return render(request, 'checkout.html')
