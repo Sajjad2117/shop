@@ -94,49 +94,49 @@ def get_user_pending_order(request):
     return 0
 
 
-# @login_required()
-# def checkout(request, **kwargs):
-#     client_token = generate_client_token()
-#     existing_order = get_user_pending_order(request)
-#     publishKey = settings.STRIPE_PUBLISHABLE_KEY
-#     if request.method == 'POST':
-#         token = request.POST.get('stripeToken', False)
-#         if token:
-#             charge = stripe.Charge.create(
-#                 amount=100 * existing_order.get_cart_total(),
-#                 currency='usd',
-#                 description='Example charge',
-#                 source=token,
-#             )
-#
-#             return redirect(reverse('shopping_cart:update_records',
-#                                     kwargs={
-#                                         'token': token
-#                                     })
-#                             )
-#
-#         else:
-#             result = transact({
-#                 'amount': existing_order.get_cart_total(),
-#                 'payment_method_nonce': request.POST['payment_method_nonce'],
-#                 'options': {
-#                     "submit_for_settlement": True
-#                 }
-#             })
-#
-#             if result.is_success or result.transaction:
-#                 return redirect(reverse('shopping_cart:update_records',
-#                                         kwargs={
-#                                             'token': result.transaction.id
-#                                         })
-#                                 )
-#
-#     context = {
-#         'order': existing_order,
-#         'client_token': client_token,
-#         'STRIPE_PUBLISHABLE_KEY': publishKey
-#     }
-#
-#     return render(request, 'shopping_cart/checkout.html', context)
+@login_required()
+def checkout(request, **kwargs):
+    client_token = generate_client_token()
+    existing_order = get_user_pending_order(request)
+    publishKey = settings.STRIPE_PUBLISHABLE_KEY
+    if request.method == 'POST':
+        token = request.POST.get('stripeToken', False)
+        if token:
+            charge = stripe.Charge.create(
+                amount=100 * existing_order.get_cart_total(),
+                currency='usd',
+                description='Example charge',
+                source=token,
+            )
+
+            return redirect(reverse('shopping_cart:update_records',
+                                    kwargs={
+                                        'token': token
+                                    })
+                            )
+
+        else:
+            result = transact({
+                'amount': existing_order.get_cart_total(),
+                'payment_method_nonce': request.POST['payment_method_nonce'],
+                'options': {
+                    "submit_for_settlement": True
+                }
+            })
+
+            if result.is_success or result.transaction:
+                return redirect(reverse('shopping_cart:update_records',
+                                        kwargs={
+                                            'token': result.transaction.id
+                                        })
+                                )
+
+    context = {
+        'order': existing_order,
+        'client_token': client_token,
+        'STRIPE_PUBLISHABLE_KEY': publishKey
+    }
+
+    return render(request, 'order/checkout.html', context)
 
 

@@ -57,7 +57,7 @@
                                 <h6>موجودی در انبار:</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text"><strong>{{ product.number }}</strong></p>
+                                <p class="text"><strong id="product-number">{{ product.number }}</strong></p>
                             </li>
                         </ul>
 
@@ -81,27 +81,24 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg" name="submit" value="buy">
+                            <div class="row pb-3 text-left">
+                                <div class="col ">
+                                    <button type="submit" class="btn btn-primary btn-lg" style="width: 40%"
+                                            name="submit" value="buy">
                                         خرید
                                     </button>
                                 </div>
-                                                                <div class="col d-grid">
-                                                                    <button type="submit" class="btn btn-primary btn-lg" name="submit"
-                                                                            value="addtocard" id="addcart">افزودن به سبد
-                                                                    </button>
-                                                                </div>
+
                             </div>
                         </form>
-<!--                        <div class="row pb-3">-->
+                        <div class="row pb-3 text-left">
 
-<!--                            <div class="col d-grid">-->
-<!--                                <button type="submit" class="btn btn-primary btn-lg" name="submit"-->
-<!--                                        value="addtocard" id="addcart">افزودن به سبد-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                            <div class="col">
+                                <button type="submit" class="btn btn-info btn-lg" style="width: 40%" name="submit"
+                                        value="addtocard" id="addcart">افزودن به سبد
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,4 +112,3 @@
 <script src="/static/js/item_count.js"></script>
 {% endblock %}
 {% endblock %}
-
