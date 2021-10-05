@@ -29,7 +29,7 @@ $(document).ready(function () {
                                         <a href="{% url 'product:detail' product.id %}" class="product-box_image"
                                            title="{{ product.name }}">
                                             <img class="img-fluid" width="280" height="100"
-                                                 src="https://pocketnow.com/files/2021/03/iphone-13-concept.jpg"
+                                                 src="media/{{ product.iamge }}"
                                                  alt="{{ product.name }}">
                                             <div class="swiper-lazy-preloader swiper-lazy-preloader-dark"></div>
                                             <div class="product-box_discount"><span>%19<small>تخفیف</small></span></div>

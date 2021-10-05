@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
 
-from .models import Customer
+from .models import Customer, Address
 
 
 class CustomerLoginForm(AuthenticationForm):
@@ -34,3 +34,7 @@ class ChangePasswordForm(forms.Form):
     new_password_check = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput())
 
 
+class AddressForm(ModelForm):
+    class Meta:
+        model = Address
+        fields = "__all__"

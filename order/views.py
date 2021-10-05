@@ -3,6 +3,7 @@ import stripe as stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -18,6 +19,8 @@ from order.extras import generate_client_token
 from order.extras import transact
 
 from customer.models import Address
+
+from customer.forms import CustomerForm, AddressForm
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -84,59 +87,25 @@ def success(request, **kwargs):
     return render(request, 'purchase_success.html', {})
 
 
-def get_user_pending_order(request):
-    # get order for the correct user
-    user_profile = get_object_or_404(Customer, user=request.user)
-    order = Order.objects.filter(owner=user_profile, is_ordered=False)
-    if order.exists():
-        # get the only order in the list of filtered orders
-        return order[0]
-    return 0
+@login_required
+def checkout_view(request):
+    if request.method == 'GET':
+        customer = Customer.objects.get(id=request.user.id)
+        addresses = Address.objects.filter(customer=customer)
+        basket = request.session['basket']
+        product_list = dict()
+        for item in basket:
+            product = Product.objects.filter(id=item).first()
+            product_list[product] = basket[item]
+        context = {
+            'products': product_list,
+            'addresses': addresses,
+            'customer': customer,
+        }
+        return render(request, 'checkout_test.html', context)
 
-
-@login_required()
-def checkout(request, **kwargs):
-    client_token = generate_client_token()
-    existing_order = get_user_pending_order(request)
-    publishKey = settings.STRIPE_PUBLISHABLE_KEY
     if request.method == 'POST':
-        token = request.POST.get('stripeToken', False)
-        if token:
-            charge = stripe.Charge.create(
-                amount=100 * existing_order.get_cart_total(),
-                currency='usd',
-                description='Example charge',
-                source=token,
-            )
-
-            return redirect(reverse('shopping_cart:update_records',
-                                    kwargs={
-                                        'token': token
-                                    })
-                            )
-
-        else:
-            result = transact({
-                'amount': existing_order.get_cart_total(),
-                'payment_method_nonce': request.POST['payment_method_nonce'],
-                'options': {
-                    "submit_for_settlement": True
-                }
-            })
-
-            if result.is_success or result.transaction:
-                return redirect(reverse('shopping_cart:update_records',
-                                        kwargs={
-                                            'token': result.transaction.id
-                                        })
-                                )
-
-    context = {
-        'order': existing_order,
-        'client_token': client_token,
-        'STRIPE_PUBLISHABLE_KEY': publishKey
-    }
-
-    return render(request, 'order/checkout.html', context)
+        customer = Customer.objects.get(id=request.user.id)
+        # address = Address.objects.get(customer=customer)
 
 

@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -13,8 +15,15 @@ class DiscountCode(models.Model):
     amount = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     created = models.DateTimeField(auto_now_add=True)
     expire_date = models.DateTimeField(_("expire date"))
-    is_active = models.BooleanField(default=True)       ######## property
+    is_active = models.BooleanField(default=True)  ######## property
 
+    # @property
+    # def verify(self):
+    #     coupon = DiscountCode.objects.filter(code=code)
+    #     if coupon.exists() and coupon[0].expire_date > date.today():
+    #         return Response({'valid': True})
+    #     else:
+    #         return Response({'valid': False})
 
     class Meta:
         verbose_name = _("Discount ")
@@ -38,6 +47,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     products = models.ManyToManyField(OrderItem)
     discount = models.OneToOneField(DiscountCode, on_delete=models.RESTRICT)
     created = models.DateTimeField(auto_now_add=True)
@@ -73,6 +83,3 @@ class Order(models.Model):
         if DiscountCode.objects.filter(product=self).count() > 0:
             total_price_with_discount = int(self.total_price - (self.total_price * DiscountCode.amount / 100))
             return total_price_with_discount
-
-
-

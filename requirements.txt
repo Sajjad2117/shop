@@ -1,4 +1,5 @@
 asgiref==3.4.1
+braintree==4.12.0
 certifi==2021.5.30
 charset-normalizer==2.0.6
 crispy-forms-gds==0.2.2
