@@ -22,6 +22,8 @@ from customer.models import Address
 
 from customer.forms import CustomerForm, AddressForm
 
+from order.models import DiscountCode
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -93,19 +95,32 @@ def checkout_view(request):
         customer = Customer.objects.get(id=request.user.id)
         addresses = Address.objects.filter(customer=customer)
         basket = request.session['basket']
-        product_list = dict()
+        products = dict()
         for item in basket:
             product = Product.objects.filter(id=item).first()
-            product_list[product] = basket[item]
+            products[product] = basket[item]
         context = {
-            'products': product_list,
+            'products': products,
             'addresses': addresses,
             'customer': customer,
         }
         return render(request, 'checkout_test.html', context)
 
     if request.method == 'POST':
+        basket = request.session['basket']
         customer = Customer.objects.get(id=request.user.id)
-        # address = Address.objects.get(customer=customer)
+        address = Address.objects.get(id=request.POST['address_id'])
+        if request.POST.get('discount_code'):
+            discount = DiscountCode.objects.get(code=request.POST.get('discount_code'))
+            total_price_with_discount = Order.total_price_with_discount
+        else:
+            discount = None
+            total_price = Order.total_price
 
-
+        order = Order.objects.create(customer=customer, address=address, discount=discount)
+        for item in basket:
+            order.items.add(OrderItem.objects.create(product=item['product'],
+                                                     quantity=item['quantity']
+                                                     ))
+        del request.session['basket']
+        return render(request, 'orders/purchase_success.html')
