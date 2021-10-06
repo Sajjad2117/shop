@@ -49,12 +49,12 @@ def recent_orders_view(request):
 
 def cart_detail_view(request):
     basket = request.session['basket']
-    product_list = dict()
+    products = dict()
     for item in basket:
         product = Product.objects.filter(id=item).first()
-        product_list[product] = basket[item]
+        products[product] = basket[item]
     context = {
-        'products': product_list,
+        'products': products,
     }
     return render(request, 'cart.html', context)
 
@@ -85,7 +85,6 @@ def cart_remove_view(request, product_id):
 
 
 def success(request, **kwargs):
-    # a view signifying the transcation was successful
     return render(request, 'purchase_success.html', {})
 
 
@@ -104,7 +103,7 @@ def checkout_view(request):
             'addresses': addresses,
             'customer': customer,
         }
-        return render(request, 'checkout_test.html', context)
+        return render(request, 'checkout.html', context)
 
     if request.method == 'POST':
         basket = request.session['basket']
@@ -117,10 +116,11 @@ def checkout_view(request):
             discount = None
             total_price = Order.total_price
 
-        order = Order.objects.create(customer=customer, address=address, discount=discount)
-        for item in basket:
-            order.items.add(OrderItem.objects.create(product=item['product'],
-                                                     quantity=item['quantity']
-                                                     ))
+        # order = Order.objects.create(customer=customer, address=address)
+        # for item in basket:
+        #     order.items.add(OrderItem.objects.create(product=item['product'],
+        #                                              quantity=item['quantity']
+        #                                              ))
+        # order.save()
         del request.session['basket']
-        return render(request, 'orders/purchase_success.html')
+        return render(request, 'purchase_success.html')

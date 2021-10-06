@@ -3,171 +3,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Checkout</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout.css' %}">
-    <style>
-        #checkoutMethods {
-            background: #fff;
-            border-radius: 2px;
-            display: inline-block;
-            max-height: 700px;
-            margin: 1rem;
-            position: relative;
-            width: 700px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    <link rel="stylesheet" type="text/css"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Shabnam font-->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css" rel="stylesheet"
+          type="text/css"/>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard-rtl/">
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet"
+          integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
 
-        }
-    </style>
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/5.0/examples/dashboard/dashboard.rtl.css" rel="stylesheet">
+    <title>Cart detail</title>
 </head>
-
 <body>
-{% include 'messages.html' %}
-<div class="container">
-    <section>
-        <div class="row" id="tablerow">
-            <div class="col-md-4 col-xs-12">
-                <div class="panel panel-primary">
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'product:index' %}">Home</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+            aria-label="عرض/إخفاء لوحة التنقل">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-                    <div class="panel-body">
-                        <h5>Enter Voucher Code Below<br><small>If multiple, separate each with comma</small></h5>
+</header>
+<div class="container p-5">
 
-                        <div>
-                            <form action="." method="post">
-                                {% csrf_token %}
-                                <input type="text" name="voucher_codes" class="form-control" id="voucher_code" required>
-                                <input type="hidden" name="order_id" value="{{ order.id }}">
-                                <br>
-                                <span>
-                  <input type="submit" class="btn btn-warning pull-right" value="Apply Voucher">
-                </span>
-                            </form>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-10 col-md-offset-3 body-main">
+
+                <div class="col-md-12">
+                    <form action="{% url 'order:checkout' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row text-left">
+
+                            <h4 style="color: #ee09cf;"><strong>Online Shop</strong></h4>
+
+                            <div class="col-12 d-flex justify-content-left mt-4">
+                                <div class="col-12 d-flex justify-content-left">
+                                    {% for address in addresses %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="address_id"
+                                               id="{{ address.id }}" value="{{ address.id }}" required>
+                                        <label class="form-check-label" for="{{ address.id }}">
+                                            {{ address.address_line }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex justify-content-left mt-2">
+                                <div class="col-12 d-flex justify-content-left">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="email_id"
+                                               id="{{ email.id }}" value="{{ email.id }}" required>
+                                        <label class="form-check-label" for="{{ email.id }}">
+                                            {{ customer.email }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8 col-xs-12">
-                <table class="table">
-                    <tr>
-                        <td><h4>Order Summary</h4></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            {% for item in order.get_cart_items %}
-                    <tr>
-                        <td>{{ item }}</td>
-                        <td>${{ item.product.price }}</td>
-                    </tr>
-                    {% endfor %}
-                    </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Order Total</strong></td>
-                        <td><strong>${{ order.get_cart_total }}</strong></td>
-                    </tr>
-                </table>
-                <button onclick="toggleDisplay();" class="btn btn-warning" style="width: 100%;">Checkout with a credit
-                    card
-                </button>
-            </div>
-        </div>
-    </section>
-
-
-    <div id="collapseStripe" class="wrapper">
-        <script src="https://js.stripe.com/v3/"></script>
-
-        <!-- can't do this -->
-        <!-- <script src="{% static 'js/stripeV3.js' %}"></script> -->
-
-        <form action="." method="post" id="payment-form">
-            {% csrf_token %}
-            <div id="checkoutMethods">
-                <div style="margin: 10px;">
-                    <h2>Checkout with Braintree</h2>
-                    <div id="bt-dropin"></div>
-                    <h2>Checkout with Stripe</h2>
-                    <div class="form-row">
-                        <label for="card-element">
-                            Credit or debit card
-                        </label>
-                        <div id="card-element" class="StripeElement StripeElement--empty">
-                            <div class="__PrivateStripeElement"
-                                 style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;">
-                                <iframe frameborder="0" allowtransparency="true" scrolling="no"
-                                        name="__privateStripeFrame3" allowpaymentrequest="true"
-                                        src="https://js.stripe.com/v3/elements-inner-card-8a434729e4eb82355db4882974049278.html#style[base][color]=%2332325d&amp;style[base][lineHeight]=18px&amp;style[base][fontFamily]=%22Helvetica+Neue%22%2C+Helvetica%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;componentName=card&amp;wait=false&amp;rtl=false&amp;features[noop]=false&amp;origin=https%3A%2F%2Fstripe.com&amp;referrer=https%3A%2F%2Fstripe.com%2Fdocs%2Fstripe-js%2Felements%2Fquickstart&amp;controllerId=__privateStripeController0"
-                                        title="Secure payment input frame"
-                                        style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; height: 18px;"></iframe>
-                                <input class="__PrivateStripeElement-input" aria-hidden="true"
-                                       style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;"><input
-                                    class="__PrivateStripeElement-safariInput" aria-hidden="true" tabindex="-1"
-                                    style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;">
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h2>Billing info</h2>
                             </div>
                         </div>
+                        <br/>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <p>Product</p>
+                                    </th>
+                                    <th>
+                                        <p>price</p>
+                                    </th>
+                                    <th>
+                                        <p>quantity</p>
+                                    </th>
+                                    <th>
+                                        <p>total price</p>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for key, value in products.items %}
+                                <tr>
+                                    <td class="col-md-4">{{ key.name }}</td>
+                                    <td class="col-md-2"><i class="fas fa-rupee-sign"></i>
+                                        {{ key.price }}
+                                    </td>
+                                    <td class="col-md-2"><i class="fas fa-rupee-sign"></i>
+                                        {{ value }}
+                                    </td>
 
-                        <!-- Used to display form errors. -->
-                        <div id="card-errors" role="alert"></div>
-                    </div>
-                    <input type="hidden" id="nonce" name="payment_method_nonce"/>
+                                    <td class="col-md-3"><i class="fas fa-rupee-sign"></i>
+                                        {% widthratio key.price 1 key.number %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+
+                                    <td colspan="3" class="text-right">
+                                        <h6><strong>Total Amount: </strong></h6>
+                                        <h6><strong>Discount: </strong></h6>
+                                    </td>
+                                    <td>
+                                        <h6><strong><i class="fas fa-rupee-sign" id="total_price"> </i>
+                                        </strong> total_price </h6>
+                                        <h6><strong><i class="fas fa-rupee-sign" id="discount"></i>
+
+                                        </strong></h6>
+                                    </td>
+                                    <td>
+                                        <h6><strong><i class="fas fa-rupee-sign"> </i>Toman</strong></h6>
+                                        <h6><strong><i class="fas fa-rupee-sign"></i>Toman</strong></h6>
+                                    </td>
+                                </tr>
+                                <tr style="color: #f80707;">
+                                    <td colspan="3" class="text-right">
+                                        <h6><strong>Payable Amount:</strong></h6>
+                                    </td>
+                                    <td>
+                                        <h6><strong><i class="fas fa-rupee-sign" area-hidden="true"
+                                                       id="final_price"></i>
+                                            {{ total_price }}
+                                        </strong></h6>
+                                    </td>
+                                    <td>
+                                        <h6><strong><i class="fas fa-rupee-sign"> </i>Toman</strong></h6>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md-12 text-right">
+                            <button class="btn btn-primary mb-4" id="btnPayment" type="submit">
+                                Payment
+                            </button>
+
+                        </div>
+                    </form>
+
                 </div>
+
+                <form id="discount_form" action="" class="mt-5">
+
+                    <div class="row">
+                        <div class="col-3">
+                            <input type="text" id="discount_code" placeholder="Discount code"
+                                   name="discount_code">
+                        </div>
+                        <input type="hidden" id="user_id" value="{{ user.id }}">
+                        <div class="col-3">
+                            <button class="btn btn-danger btn-sm applyBtn" id="applyBtn" type="submit">Apply
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+                 <div class="summary-item row"><span
+                            class="text col-12" id="error" style="color: red"></span>
+                    </div>
             </div>
-            <button>Submit Payment</button>
-        </form>
+
+        </div>
 
     </div>
 
-    <div id="stripe-token-handler" class="is-hidden">Success! Got token: <span class="token"></span></div>
-
 </div>
-
-<!-- script for the stripe form -->
-<script src="{% static 'js/checkout.js' %}"></script>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-
-<script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
-<script>
-    var form = document.querySelector('#payment-form');
-    var client_token = '{{ client_token }}';
-
-    braintree.dropin.create({
-        authorization: client_token,
-        container: '#bt-dropin',
-        paypal: {
-            flow: 'vault'
-        }
-    }, function (createErr, instance) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            instance.requestPaymentMethod(function (err, payload) {
-                if (err) {
-                    console.log('Error', err);
-                    return;
-                }
-
-                // Add the nonce to the form and submit
-                document.querySelector('#nonce').value = payload.nonce;
-                form.submit();
-            });
-        });
-    });
-</script>
-
-<!-- script for toggling display of the form -->
-<script type="text/javascript">
-    function toggleDisplay() {
-        var x = document.getElementById("collapseStripe");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    };
-</script>
-
 </body>
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/discount.js' %}"></script>
+
 </html>
+
+

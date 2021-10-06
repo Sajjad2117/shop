@@ -11,9 +11,8 @@ from order.models import DiscountCode
 
 
 class DiscountSerializer(serializers.ModelSerializer):
-    """
-    Discount serializer.
-    """
+    customer = serializers.CharField(source='customer.email')
+
     def validate(self, data):
 
         # Verify if the expiration date is set that it's in the future.
@@ -23,9 +22,11 @@ class DiscountSerializer(serializers.ModelSerializer):
 
         return data
 
-    def create(self, validated_data):
-        return DiscountCode.objects.create(**validated_data)
+    # def create(self, validated_data):
+    #     return DiscountCode.objects.create(**validated_data)
 
     class Meta:
         model = DiscountCode
         fields = '__all__'
+
+
