@@ -50,11 +50,19 @@ def recent_orders_view(request):
 def cart_detail_view(request):
     basket = request.session['basket']
     products = dict()
+    total_price = list()
     for item in basket:
         product = Product.objects.filter(id=item).first()
         products[product] = basket[item]
+
+    for product.id, quantity in basket.items():
+        product = Product.objects.get(id=product.id)
+        total_price.append(int(product.price * int(quantity)))
+
+    total_price = (sum(total_price))
     context = {
         'products': products,
+        'total_price': total_price,
     }
     return render(request, 'cart.html', context)
 
@@ -95,13 +103,21 @@ def checkout_view(request):
         addresses = Address.objects.filter(customer=customer)
         basket = request.session['basket']
         products = dict()
+        total_price = list()
         for item in basket:
             product = Product.objects.filter(id=item).first()
             products[product] = basket[item]
+
+        for product.id, quantity in basket.items():
+            product = Product.objects.get(id=product.id)
+            total_price.append(int(product.price * int(quantity)))
+
+        total_price = (sum(total_price))
         context = {
             'products': products,
             'addresses': addresses,
             'customer': customer,
+            'total_price': total_price,
         }
         return render(request, 'checkout.html', context)
 
@@ -116,11 +132,14 @@ def checkout_view(request):
             discount = None
             total_price = Order.total_price
 
-        # order = Order.objects.create(customer=customer, address=address)
+        order = Order(customer=customer,
+                      address=address,
+
+                      )
         # for item in basket:
         #     order.items.add(OrderItem.objects.create(product=item['product'],
         #                                              quantity=item['quantity']
         #                                              ))
-        # order.save()
+        order.save()
         del request.session['basket']
         return render(request, 'purchase_success.html')

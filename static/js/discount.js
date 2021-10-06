@@ -18,8 +18,6 @@ $('#discount_form').on('submit', function (e) {
                 if (data[key]["code"] == discount_code) {
                     $("#discount").html(data[key]['amount'])
                     $("#discount").append('%')
-                } else {
-                    $("#error").html('This discount code is not valid')
                 }
             }
         },
