@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from .views import (recent_orders_view,
                     orders_history_view,
@@ -18,4 +20,5 @@ urlpatterns = [
     path('cart-remove/<int:product_id>/', cart_remove_view, name='cart_remove'),
     path('cart-success/', success, name='purchase_success'),
     path('checkout/', checkout_view, name='checkout'),
-]
+
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

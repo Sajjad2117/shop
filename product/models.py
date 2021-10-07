@@ -35,7 +35,7 @@ class Product(models.Model):
         verbose_name_plural = 'Products'
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 # class ProductDiscount(models.Model):

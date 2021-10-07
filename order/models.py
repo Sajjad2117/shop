@@ -34,7 +34,7 @@ class DiscountCode(models.Model):
 
 
 class OrderItem(models.Model):
-    product = models.ManyToManyField(Product)
+    product = models.CharField(max_length=200)
     quantity = models.IntegerField(_("quantity"), default=1)
 
     class Meta:
@@ -42,14 +42,14 @@ class OrderItem(models.Model):
         verbose_name_plural = _("Order items")
 
     def __str__(self):
-        return f'{self.product.name}--{self.quantity}'
+        return f'{self.product}--{self.quantity}'
 
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
     products = models.ManyToManyField(OrderItem)
-    discount = models.OneToOneField(DiscountCode, on_delete=models.RESTRICT)
+    discount = models.OneToOneField(DiscountCode, on_delete=models.RESTRICT, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     READY_TO_SEND = 'ready to send'
@@ -62,6 +62,7 @@ class Order(models.Model):
     ]
 
     status = models.CharField(max_length=30, choices=STATUS, default='ready to send')
+    total_price = models.PositiveIntegerField(_("total_price "), null=True)
 
     class Meta:
         ordering = ('-created',)
@@ -71,12 +72,12 @@ class Order(models.Model):
     def __str__(self):
         return f'{self.customer.username}'
 
-    @property
-    def total_price(self):
-        total_price = 0
-        for item in self.items.all():
-            total_price += item.product.price * item.quantity
-        return total_price
+    # @property
+    # def total_price(self):
+    #     total_price = 0
+    #     for item in self.items.all():
+    #         total_price += item.product.price * item.quantity
+    #     return total_price
 
     @property
     def total_price_with_discount(self):
