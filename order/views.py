@@ -1,51 +1,29 @@
-from datetime import date, timedelta
-import stripe as stripe
-from django.conf import settings
-from django.contrib import messages
+from datetime import timedelta, datetime
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponse
-from django.urls import reverse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_POST
+from django.shortcuts import render, redirect
 
 from product.models import Product
-
-from customer.models import Customer
-from order.extras import generate_order_id
-
-from order.extras import generate_client_token
-
-from order.extras import transact
-
-from customer.models import Address
-
-from customer.forms import CustomerForm, AddressForm
-
-from order.models import DiscountCode
-
-from order.models import Order
-
-from order.models import OrderItem
+from customer.models import Customer, Address
+from order.models import DiscountCode, Order, OrderItem
 
 
 @login_required
 def orders_history_view(request):
-    if request.method == "GET":
-        orders = Order.objects.filter(customer=request.user)
-        # context = dict()
-        # context['orders'] = orders
-        context = {'orders': orders}
-        return render(request, 'orders_history.html', context)
+    orders = Order.objects.filter(customer=request.user)
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'orders_history.html', context)
 
 
+@login_required
 def recent_orders_view(request):
-    if request.user.is_authenticated:
-        recent_orders = Order.objects.filter(created__range=(date.today() - timedelta(days=10), date.today()))
-        context = {
-            'recent_orders': recent_orders,
-        }
-        return render(request, 'recent_orders.html', context)
-    return redirect(reverse("customer:login"))
+    recent_orders = Order.objects.filter(customer=request.user,
+                                         created__range=[(datetime.now() - timedelta(days=10)), datetime.now()])
+    context = {
+        'recent_orders': recent_orders,
+    }
+    return render(request, 'recent_orders.html', context)
 
 
 def cart_detail_view(request):
@@ -81,7 +59,6 @@ def cart_add_view(request):
         request.session.modified = True
 
     print(request.session.get('basket'))
-
     return redirect('order:cart')
 
 
@@ -89,7 +66,6 @@ def cart_remove_view(request, product_id):
     cart = request.session.get('basket')
     cart.pop(str(product_id))
     request.session.modified = True
-
     return redirect('order:cart')
 
 
