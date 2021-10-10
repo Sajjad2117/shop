@@ -9,9 +9,18 @@ from order.models import DiscountCode, Order, OrderItem
 
 @login_required
 def orders_history_view(request):
-    orders = Order.objects.filter(customer=request.user)
+    orders = Order.objects.filter(customer=request.user).all()
+    order_list = dict()
+    for order in orders:
+        product_list = list()
+        for product_name in order.products.all():
+            product = Product.objects.filter(name=product_name).first()
+            product_list.append(product)
+
+        order_list[order] = product_list
+
     context = {
-        'orders': orders,
+        'order_list': order_list,
     }
     return render(request, 'orders_history.html', context)
 
@@ -20,8 +29,16 @@ def orders_history_view(request):
 def recent_orders_view(request):
     recent_orders = Order.objects.filter(customer=request.user,
                                          created__range=[(datetime.now() - timedelta(days=10)), datetime.now()])
+    order_list = dict()
+    for order in recent_orders:
+        product_list = list()
+        for product_name in order.products.all():
+            product = Product.objects.filter(name=product_name).first()
+            product_list.append(product)
+
+        order_list[order] = product_list
     context = {
-        'recent_orders': recent_orders,
+        'order_list': order_list,
     }
     return render(request, 'recent_orders.html', context)
 

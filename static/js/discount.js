@@ -19,16 +19,10 @@ $('#discount_form').on('submit', function (e) {
                     $("#discount").html(data[key]['amount'])
                     $("#discount").append('%')
                     // console.log(data[key]["amount"]);
-                    // $("#total_price").html(data['total_price'])
                     const TotalPrice = $('#span_price').html();
                     console.log(TotalPrice);
                     const DiscountCodeAmount = (data[key]["amount"])
-                    // const TotalPrice = document.getElementById('total_price');
-                    // const TotalPrice = $('#total_price').html();
-                    // const TotalPrice = $('#total_price').text();
-                    // var TotalPrice = $('#total_price').val();
                     // console.log(TotalPrice)
-                    // const TotalPrice = 644130
                     const discount = TotalPrice * DiscountCodeAmount / 100
                     const totalPriceAfterDiscount = (TotalPrice - discount)
                     $('#final_price').text(`${totalPriceAfterDiscount}`)

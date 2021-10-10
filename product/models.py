@@ -7,6 +7,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
     # parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, verbose_name=_('parent'),
     #                            related_name='children')
+    ### created and Updated
 
     class Meta:
         ordering = ('name',)

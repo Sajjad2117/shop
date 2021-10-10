@@ -42,13 +42,13 @@ class OrderItem(models.Model):
         verbose_name_plural = _("Order items")
 
     def __str__(self):
-        return f'{self.product}--{self.quantity}'
+        return f'{self.product}'
 
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
-    products = models.ManyToManyField(OrderItem)
+    products = models.ManyToManyField(OrderItem)   # ForeignKey
     discount = models.OneToOneField(DiscountCode, on_delete=models.RESTRICT, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
