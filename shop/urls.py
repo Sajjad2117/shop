@@ -13,9 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.views import (PasswordResetView,
+                                       PasswordResetDoneView,
+                                       PasswordResetConfirmView,
+                                       PasswordResetCompleteView,
+                                       )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +31,13 @@ urlpatterns = [
     path('', include('product.urls')),
     path('api/user/', include('customer.api.urls')),
     path('api/product/', include('product.api.urls')),
-    path('api/order/', include('order.api.urls'))
+    path('api/order/', include('order.api.urls')),
+
+    path('reset_password/', PasswordResetView.as_view(), name='reset_password'),
+    path('reset_password_sent/', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

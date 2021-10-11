@@ -143,6 +143,7 @@ def checkout_view(request):
         order = Order(customer=customer,
                       address=address,
                       discount=discount,
+                      total_price=total_price_with_discount,
                       status="ready to send",
                       )
         order.save()
