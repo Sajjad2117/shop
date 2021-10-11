@@ -33,10 +33,21 @@ urlpatterns = [
     path('api/product/', include('product.api.urls')),
     path('api/order/', include('order.api.urls')),
 
-    path('reset_password/', PasswordResetView.as_view(), name='reset_password'),
-    path('reset_password_sent/', PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+    path('reset_password/',
+         PasswordResetView.as_view(template_name='customer/reset_password.html'),
+         name='reset_password'),
+
+    path('reset_password_sent/',
+         PasswordResetDoneView.as_view(template_name='customer/password_reset_done.html'),
+         name='password_reset_done'),
+
+    path('reset/<uidb64>/<token>/',
+         PasswordResetConfirmView.as_view(template_name='customer/password_reset_confirm.html'),
+         name='password_reset_confirm'),
+
+    path('reset/done/', PasswordResetCompleteView.as_view(template_name='customer/password_reset_complete.html'),
+         name='password_reset_complete'),
 
 ]
 

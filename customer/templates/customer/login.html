@@ -36,8 +36,7 @@
                     <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
                     <label class="custom-control-label" for="customCheck">Remember me</label>
                 </div>
-                <div class="ml-auto"> <a href="" onclick="window.alert('You should have remembered it!')"
-                                         id="forgot">Forgot Password?</a>
+                <div class="ml-auto"> <a href="{% url 'reset_password' %}"  id="forgot">Forgot Password?</a>
                 </div>
 
             </div>

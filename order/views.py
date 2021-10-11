@@ -86,10 +86,6 @@ def cart_remove_view(request, product_id):
     return redirect('order:cart')
 
 
-def success(request, **kwargs):
-    return render(request, 'purchase_success.html', {})
-
-
 @login_required
 def checkout_view(request):
     if request.method == 'GET':
@@ -132,6 +128,7 @@ def checkout_view(request):
             total_price.append(int(product.price * int(quantity)))
 
         total_price = (sum(total_price))
+        print(request.POST)
 
         if request.POST.get('discount_code'):
             discount = DiscountCode.objects.get(code=request.POST.get('discount_code'))
@@ -143,7 +140,7 @@ def checkout_view(request):
         order = Order(customer=customer,
                       address=address,
                       discount=discount,
-                      total_price=total_price_with_discount,
+                      total_price=total_price,
                       status="ready to send",
                       )
         order.save()
@@ -153,10 +150,12 @@ def checkout_view(request):
             order_item = OrderItem(product=product.name,
                                    quantity=quantity,
                                    )
-            print(order_item)
             order_item.save()
-            print(order_item, "++")
             order.products.add(order_item)
 
         del request.session['basket']
         return render(request, 'purchase_success.html')
+
+
+def success(request, **kwargs):
+    return render(request, 'purchase_success.html', {})

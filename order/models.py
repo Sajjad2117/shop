@@ -64,6 +64,7 @@ class Order(models.Model):
     status = models.CharField(max_length=30, choices=STATUS, default='ready to send')
     total_price = models.PositiveIntegerField(_("total_price "), null=True)
 
+
     class Meta:
         ordering = ('-created',)
         verbose_name = _("Order")
