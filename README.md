@@ -1,4 +1,4 @@
-# shop
+# Online Shop
 A simple django ecommerce project 
 
 ## Instructions
