@@ -5,12 +5,12 @@ A simple django ecommerce project
 
 ## How to Run?
 
-##### Clone the repository:
+### Clone the repository:
 ```bash
 $ git clone https://github.com/Sajjad2117/shop.git
 $ cd shop
 ```
-##### Create a virtualenv and activate it:
+### Create a virtualenv and activate it:
 
 Windows:
 ```bash
@@ -22,19 +22,19 @@ Linux:
 $ python3 -m venv venv
 $ . venv/bin/activate
 ```
-##### In settings.py, set up the database and email
+### In settings.py, set up the database and email
 
-##### Install the requirements :
+### Install the requirements :
 ```bash
 pip install -r requirements.txt
 ``` 
 
-##### Write the following commands to create your tables:
+### Write the following commands to create your tables:
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ``` 
-##### Run the development server:
+### Run the development server:
 ```bash
 python manage.py runserver
 ``` 
