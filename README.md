@@ -1,6 +1,7 @@
 # Online Shop
 A simple django ecommerce project 
 
+![Tokan](media/shop.gif)
 
 ## How to Run?
 
