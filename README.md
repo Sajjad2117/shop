@@ -1,7 +1,6 @@
 # Online Shop
 A simple django ecommerce project 
 
-## Instructions
 
 ## How to Run?
 
