@@ -10,12 +10,31 @@ A simple django ecommerce project
 $ git clone https://github.com/Sajjad2117/shop.git
 $ cd shop
 ```
+##### Create a virtualenv and activate it:
 
-##### Commands:
+#######Windows:
 ```bash
-python -m venv venv
+py -3 -m venv venv
 venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py runserver
 ```
+#######Linux:
+```bash
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
+
+##### Install the requirements :
+```bash
+pip install -r requirements.txt
+``` 
+
+##### Write the following commands to create your tables:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+``` 
+##### Run the development server:
+```bash
+python manage.py runserver
+``` 
 
