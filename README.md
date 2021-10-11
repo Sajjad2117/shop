@@ -22,6 +22,7 @@ Linux:
 $ python3 -m venv venv
 $ . venv/bin/activate
 ```
+##### In settings.py, set up the database and email
 
 ##### Install the requirements :
 ```bash
