@@ -11,12 +11,12 @@ $ cd shop
 ```
 ### 2- Create a virtualenv and activate it:
 
-Windows:
+* Windows:
 ```bash
 py -3 -m venv venv
 venv\Scripts\activate
 ```
-Linux:
+* Linux:
 ```bash
 $ python3 -m venv venv
 $ . venv/bin/activate
