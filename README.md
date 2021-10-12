@@ -4,6 +4,12 @@ A simple django ecommerce project
 ## Tools:
 ![python](https://img.shields.io/badge/Python-3-brightgreen)
 ![Django](https://img.shields.io/badge/Django-3.2.7-brightgreen)
+![PostgreSQL](https://img.shields.io/badge/Data%20Base-PostgreSQL%20-orange)
+![HTML](https://img.shields.io/badge/Front--End-HTML5%20-blue)
+![JavaScript](https://img.shields.io/badge/JavaScript-%20-blue)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-%205-red)
+![jQuery](https://img.shields.io/badge/jQuery-%20-brightgreen)
+![AJAX](https://img.shields.io/badge/AJAX-%20%20-yellow)
 
 ![Tokan](media/shop.gif)
 
