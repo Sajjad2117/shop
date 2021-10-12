@@ -2,7 +2,8 @@
 A simple django ecommerce project 
 
 ## Tools:
-* Back-End:![python](https://img.shields.io/badge/Python-3-brightgreen)
+[![python](https://img.shields.io/badge/Python-3-brightgreen)]
+[![Django](https://img.shields.io/badge/Django-3.2.7-brightgreen)]
 
 ![Tokan](media/shop.gif)
 
