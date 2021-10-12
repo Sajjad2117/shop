@@ -1,6 +1,9 @@
 # Online Shop
 A simple django ecommerce project 
 
+## Tools:
+* Back-End:![python](https://img.shields.io/badge/Python-3-brightgreen)
+
 ![Tokan](media/shop.gif)
 
 ## How to Run?
