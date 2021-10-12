@@ -60,7 +60,7 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ``` 
-Open http://127.0.0.1:8000 in your browser. 
+## Open http://127.0.0.1:8000 in your browser. 
 
 ## License
 [![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/DAVFoundation/captain-n3m0/blob/master/LICENSE)
