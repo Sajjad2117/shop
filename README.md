@@ -46,6 +46,10 @@ DATABASES = {
     }
 }
 ```
+* or you can to import my sample PostgreSQL database using this command:
+```bash
+psql -U username dbname < dbexport.pgsql
+```
 
 #### 4- In settings.py set up the your email:
 ```bash
